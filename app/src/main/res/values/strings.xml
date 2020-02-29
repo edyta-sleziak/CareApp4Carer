@@ -16,4 +16,13 @@
 
     <string name="Completed">Completed Date:</string>
     <string name="CompletedDate">$ dateCompleted</string>
+
+    <string name="hint_emailaddress">E-mail</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_login">Log in</string>
+    <string name="btn_signup">Sign up</string>
+    <string name="hint_createaccount">Don\'t have an account?\nTo register click button below</string>
+    <string name="enter_credentials">Please provide e-mail address and password</string>
+
+
 </resources>

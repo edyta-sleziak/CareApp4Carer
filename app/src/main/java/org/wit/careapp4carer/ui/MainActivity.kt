@@ -1,8 +1,6 @@
-package org.wit.careapp4carer
+package org.wit.careapp4carer.ui
 
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -13,6 +11,7 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
+import org.wit.careapp4carer.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,8 +30,12 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_todo, R.id.nav_notes,
-                R.id.nav_settings, R.id.nav_notifications, R.id.nav_reports
+                R.id.nav_home,
+                R.id.nav_todo,
+                R.id.nav_notes,
+                R.id.nav_settings,
+                R.id.nav_notifications,
+                R.id.nav_reports
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
