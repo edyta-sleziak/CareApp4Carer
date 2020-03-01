@@ -24,5 +24,12 @@
     <string name="hint_createaccount">Don\'t have an account?\nTo register click button below</string>
     <string name="enter_credentials">Please provide e-mail address and password</string>
 
+    <string name="button_notificationHistory">Display history</string>
+    <string name="button_delete">Delete</string>
+    <string name="button_duplicate">Duplicate</string>
+    <string name="button_save">Save</string>
+    <string name="hint_DisplayDate">Display Date:</string>
+    <string name="DisplayDateTime">$ displayDate</string>
+
 
 </resources>
