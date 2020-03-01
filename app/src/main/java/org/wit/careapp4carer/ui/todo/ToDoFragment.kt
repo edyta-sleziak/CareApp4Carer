@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_todo.*
 import kotlinx.android.synthetic.main.fragment_todo.view.*
 import kotlinx.android.synthetic.main.listitem_todo.view.*
 import org.wit.careapp4carer.R
-import org.wit.careapp4carer.adapters.RecyclerViewAdapter
+import org.wit.careapp4carer.ui.todo.ToDoRecyclerViewAdapter
 import org.wit.careapp4carer.models.TodoModel
 import org.wit.careapp4carer.models.TodoStore
 import org.wit.careapp4carer.models.firebase.TodoFireStore
@@ -26,7 +26,8 @@ class ToDoFragment : Fragment() {
 
     private lateinit var toDoViewModel: ToDoViewModel
     private lateinit var mRecycleView: RecyclerView
-    private lateinit var mRecyclerViewAdapter: RecyclerViewAdapter
+    private lateinit var mRecyclerViewAdapter: ToDoRecyclerViewAdapter
+    var todoList = TodoFireStore()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,29 +44,20 @@ class ToDoFragment : Fragment() {
             activity!!.applicationContext, RecyclerView.VERTICAL,false)
         mRecycleView.layoutManager = linearLayoutManager
 
-
-        toDoViewModel.getToDoList().observe(viewLifecycleOwner, Observer{ todolist ->
-            mRecycleView.adapter = RecyclerViewAdapter(todolist)
+        toDoViewModel.getToDoList()
+            .observe(viewLifecycleOwner, Observer{ todolist ->
+            mRecycleView.adapter = ToDoRecyclerViewAdapter(todolist)
         })
+
+
 
         view.buttonAdd.setOnClickListener { view ->
             var taskName = newToDoItem.text.toString()
-            Log.d("123", taskName)
-            //toDoViewModel.addToDoItem(taskName)
-            var newToDoItem = TodoModel("123",taskName, false, null,0)
-            var todoList = TodoFireStore(activity!!.applicationContext)
+            var newToDoItem = TodoModel("",taskName, false, null)
             todoList.addNewTodoItem(newToDoItem)
         }
 
         return view
     }
-
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//        todoRecyclerView.apply {
-//            layoutManager = LinearLayoutManager(activity!!.applicationContext)
-//            adapter = RecyclerViewAdapter(toDoViewModel.getToDoList())
-//        }
-//    }
 
 }

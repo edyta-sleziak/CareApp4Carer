@@ -34,7 +34,7 @@ class AccountInfoFireStore(val context: Context) : AccountInfoStore, AnkoLogger 
         userId = FirebaseAuth.getInstance().currentUser!!.uid
         db = FirebaseDatabase.getInstance().reference
         accounts.clear()
-        db.child("users").child(userId).child("data").addListenerForSingleValueEvent(valueEventListener)
+        db.child("users").child(userId).addListenerForSingleValueEvent(valueEventListener)
     }
 
 }

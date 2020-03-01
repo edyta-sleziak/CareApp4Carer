@@ -6,6 +6,5 @@ data class TodoModel(
     var id: String = "",
     var task: String = "",
     var isCompleted: Boolean = false,
-    var dateCompleted: LocalDateTime?,
-    var userId: Long = 0
+    var dateCompleted: LocalDateTime? = null
 )

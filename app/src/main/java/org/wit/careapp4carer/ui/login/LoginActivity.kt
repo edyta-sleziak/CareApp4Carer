@@ -80,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
 //                fireStore!!.fetchData {
-//                    hideProgress()
+                    hideProgress()
                     startActivity(Intent(baseContext, MainActivity::class.java))
                 //}
             } else {
