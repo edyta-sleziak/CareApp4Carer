@@ -57,8 +57,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="@string/button_delete"
         android:backgroundTint="@android:color/holo_red_light"
+        android:text="@string/button_delete"
+        app:layout_constraintEnd_toStartOf="@+id/button_createDuplicate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/button_saveNotification" />
 
@@ -66,12 +67,10 @@
         android:id="@+id/button_createDuplicate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/button_duplicate"
         android:backgroundTint="@android:color/holo_blue_light"
-        app:layout_constraintStart_toEndOf="@id/button_deleteNotification"
+        android:text="@string/button_duplicate"
         app:layout_constraintEnd_toStartOf="@id/button_saveNotification"
+        app:layout_constraintStart_toEndOf="@id/button_deleteNotification"
         app:layout_constraintTop_toTopOf="@+id/button_saveNotification" />
 
     <Button
@@ -84,7 +83,7 @@
         android:text="@string/button_save"
         android:backgroundTint="@android:color/holo_green_light"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="button_createDuplicate"
+        app:layout_constraintStart_toEndOf="@+id/button_createDuplicate"
         app:layout_constraintTop_toBottomOf="@+id/notification_time" />
 
 
