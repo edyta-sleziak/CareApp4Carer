@@ -31,5 +31,8 @@
     <string name="hint_DisplayDate">Display Date:</string>
     <string name="DisplayDateTime">$ displayDate</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

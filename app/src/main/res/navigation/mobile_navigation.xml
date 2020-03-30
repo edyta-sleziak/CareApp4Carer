@@ -33,11 +33,28 @@
         android:id="@+id/nav_notifications"
         android:name="org.wit.careapp4carer.ui.notifications.NotificationsFragment"
         android:label="@string/menu_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_notifications" >
+        <action
+            android:id="@+id/action_nav_notifications_to_addNotificationFragment"
+            app:destination="@+id/addNotificationFragment" />
+        <action
+            android:id="@+id/action_nav_notifications_to_notificationHistoryFragment"
+            app:destination="@id/notificationHistoryFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_reports"
         android:name="org.wit.careapp4carer.ui.reports.ReportsFragment"
         android:label="@string/menu_reports"
         tools:layout="@layout/fragment_reports" />
+    <fragment
+        android:id="@+id/addNotificationFragment"
+        android:name="org.wit.careapp4carer.AddNotificationFragment"
+        android:label="fragment_add_notification"
+        tools:layout="@layout/fragment_add_notification" />
+    <fragment
+        android:id="@+id/notificationHistoryFragment"
+        android:name="org.wit.careapp4carer.NotificationHistoryFragment"
+        android:label="fragment_notification_history"
+        tools:layout="@layout/fragment_notification_history" />
 </navigation>

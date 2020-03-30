@@ -12,8 +12,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import org.wit.careapp4carer.R
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.net.Uri
+import org.wit.careapp4carer.AddNotificationFragment
+import org.wit.careapp4carer.NotificationHistoryFragment
 
-class MainActivity : AppCompatActivity() {
+
+class MainActivity : AppCompatActivity(),
+        AddNotificationFragment.OnFragmentInteractionListener,
+        NotificationHistoryFragment.OnFragmentInteractionListener
+{
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
@@ -51,5 +61,8 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    override fun onFragmentInteraction(uri: Uri) {
     }
 }

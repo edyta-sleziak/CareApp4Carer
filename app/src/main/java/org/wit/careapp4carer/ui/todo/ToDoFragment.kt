@@ -41,15 +41,13 @@ class ToDoFragment : Fragment() {
 
         mRecycleView = view.findViewById(R.id.todoRecyclerView)
         val linearLayoutManager = LinearLayoutManager(
-            activity!!.applicationContext, RecyclerView.VERTICAL,false)
+            requireActivity().applicationContext, RecyclerView.VERTICAL,false)
         mRecycleView.layoutManager = linearLayoutManager
 
         toDoViewModel.getToDoList()
             .observe(viewLifecycleOwner, Observer{ todolist ->
             mRecycleView.adapter = ToDoRecyclerViewAdapter(todolist)
         })
-
-
 
         view.buttonAdd.setOnClickListener { view ->
             var taskName = newToDoItem.text.toString()

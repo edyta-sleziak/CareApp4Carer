@@ -9,6 +9,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import org.wit.careapp4carer.models.NotificationsModel
 import org.wit.careapp4carer.models.NotificationsStore
+import org.wit.careapp4carer.models.TodoModel
 
 class NotificationsFireStore() : NotificationsStore {
 
@@ -17,13 +18,18 @@ class NotificationsFireStore() : NotificationsStore {
     private var db = FirebaseDatabase.getInstance().reference
     private var userId = FirebaseAuth.getInstance().currentUser!!.uid
 
+    override fun getAll(): ArrayList<NotificationsModel> {
+        fetchData()
+        return listOfItems
+    }
+
     fun getMutalbleLiveData(): MutableLiveData<ArrayList<NotificationsModel>> {
         fetchData()
         mListOfItems.value = listOfItems
         return mListOfItems
     }
 
-    override fun displayNote(noteId: Long) {
+    override fun displayNotification(noteId: Long) {
 
     }
     override fun markAsDone(noteId: Long) {
@@ -33,6 +39,19 @@ class NotificationsFireStore() : NotificationsStore {
 
     }
 
+    override fun addNewNotification(notification: NotificationsModel) {
+        val key = db.child("Users").child(userId).child("Notifications").push().key
+        key?.let {
+            notification.id = key
+            listOfItems.add(notification)
+            db.child("Users").child(userId).child("Notifications").child(key).setValue(notification)
+        }
+    }
+
+    fun clear() {
+        listOfItems.clear()
+    }
+
     fun fetchData() {
         db.child("Users").child(userId).child("Notifications").addValueEventListener(object :
             ValueEventListener {
@@ -40,6 +59,7 @@ class NotificationsFireStore() : NotificationsStore {
                 Log.w("Database error" , "Retrieving data failed")
             }
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                clear()
                 Log.d("snapshot ", "$dataSnapshot")
                 dataSnapshot.children.mapNotNullTo(listOfItems) { it.getValue<NotificationsModel>(
                     NotificationsModel::class.java) }
