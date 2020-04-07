@@ -52,11 +52,10 @@ class AddNotificationFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_add_notification, container, false)
 
-        view.button_saveNotification.setOnClickListener { view ->
+        view.button_saveNotification.setOnClickListener {
             var notification = notification_text.text.toString()
             var displayTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-            var completedTime = null
-            var newNotification = NotificationsModel("",notification, displayTime, completedTime)
+            var newNotification = NotificationsModel("",notification, displayTime)
             notificationsList.addNewNotification(newNotification)
             Log.d("D","added + $notification")
         }

@@ -52,6 +52,11 @@ class NotificationsFireStore() : NotificationsStore {
         listOfItems.clear()
     }
 
+
+    override fun removeNotification(notificationId: String) {
+        db.child("Users").child(userId).child("Notifications").child(notificationId).removeValue()
+    }
+
     fun fetchData() {
         db.child("Users").child(userId).child("Notifications").addValueEventListener(object :
             ValueEventListener {
@@ -64,6 +69,7 @@ class NotificationsFireStore() : NotificationsStore {
                 dataSnapshot.children.mapNotNullTo(listOfItems) { it.getValue<NotificationsModel>(
                     NotificationsModel::class.java) }
                 Log.d("saved data", "$listOfItems")
+
             }
         })
     }

@@ -16,6 +16,10 @@ import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.net.Uri
+import android.util.Log
+import android.widget.TextView
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.nav_header_main.*
 import org.wit.careapp4carer.AddNotificationFragment
 import org.wit.careapp4carer.NotificationHistoryFragment
 
@@ -27,14 +31,21 @@ class MainActivity : AppCompatActivity(),
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
+    private var user = FirebaseAuth.getInstance().currentUser!!
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
+        val header = navView.getHeaderView(0)
+        val accountName: TextView = header.findViewById(R.id.accountName)
+        accountName.setText(user.email)
+
+        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        //val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.

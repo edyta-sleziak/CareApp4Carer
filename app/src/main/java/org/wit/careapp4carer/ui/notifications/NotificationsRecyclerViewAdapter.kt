@@ -6,16 +6,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_notifications.view.*
 import org.wit.careapp4carer.R
 import org.wit.careapp4carer.models.NotificationsModel
+import org.wit.careapp4carer.models.firebase.NotificationsFireStore
 
 class NotificationsRecyclerViewAdapter(var notificationsList: List<NotificationsModel>
 ) : RecyclerView.Adapter<NotificationsRecyclerViewAdapter.MainHolder>() {
 
     private var mContext: Context? = null
+    private var dbNotificationsList = NotificationsFireStore()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         this.mContext=parent.context
@@ -29,23 +33,30 @@ class NotificationsRecyclerViewAdapter(var notificationsList: List<Notifications
     }
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
-        val mNotificationsList = notificationsList!!.get(position)
+        val mNotificationsListItem = notificationsList!!.get(position)
 
-        if(mNotificationsList.notification != null) {
-            holder.notificationName.setText(mNotificationsList.notification)
+        if(mNotificationsListItem.notification != null) {
+            holder.notificationName.setText(mNotificationsListItem.notification)
         }
 
-        if(mNotificationsList.completedTime != null) {
-            holder.notificationCompletedDate.setText(mNotificationsList.completedTime.toString())
+        if(mNotificationsListItem.completedTime != null) {
+            holder.notificationCompletedDate.setText(mNotificationsListItem.completedTime)
         }
 
-        if(mNotificationsList.displayTime != null) {
-            holder.notificationDisplayDate.setText(mNotificationsList.displayTime.toString())
+        if(mNotificationsListItem.displayTime != null) {
+            holder.notificationDisplayDate.setText(mNotificationsListItem.displayTime)
         }
 
-        holder.notificationName.setOnClickListener{
-            Log.d("CLICKED", "You clicked on task ${holder.notificationName}")
+        holder.buttonDelete.setOnClickListener{
+            dbNotificationsList.removeNotification(mNotificationsListItem.id)
+            notifyDataSetChanged()
         }
+
+        holder.itemView.setOnClickListener{
+            Log.d("CLICKED:", " clicked on item ${mNotificationsListItem.notification}")
+            //TODO edit data (pass mNotificationListItem as parameter
+        }
+
 
 
     }
@@ -56,6 +67,7 @@ class NotificationsRecyclerViewAdapter(var notificationsList: List<Notifications
         val notificationName: TextView = itemView.findViewById(R.id.notificationName)
         val notificationCompletedDate: TextView = itemView.findViewById(R.id.notificationCompletedDate)
         val notificationDisplayDate: TextView = itemView.findViewById(R.id.notificationDisplayDate)
+        val buttonDelete: ImageView = itemView.findViewById(R.id.button_deleteNotification)
 
     }
 

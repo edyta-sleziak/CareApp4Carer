@@ -4,5 +4,5 @@ data class NotificationsModel(
     var id: String = "",
     var notification: String = "",
     var displayTime: String = "",
-    var completedTime: String? = null
+    var completedTime: String = "Not completed"
 )
