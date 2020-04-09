@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.listitem_notification.view.*
 import kotlinx.android.synthetic.main.notification_list.view.*
 import org.wit.careapp4carer.R
+import org.wit.careapp4carer.models.NotificationsModel
 import org.wit.careapp4carer.models.firebase.NotificationsFireStore
 
 
@@ -49,7 +50,10 @@ class NotificationsFragment : Fragment() {
             })
 
         view.button_addNotification.setOnClickListener {
-            view.findNavController().navigate(R.id.addNotificationFragment)
+            var newNotification = null
+            var action : NotificationsFragmentDirections.ActionNavNotificationsToAddNotificationFragment = NotificationsFragmentDirections.actionNavNotificationsToAddNotificationFragment(newNotification)
+            it.findNavController().navigate(action)
+//            view.findNavController().navigate(R.id.addNotificationFragment)
         }
 
         view.button_seeHistory.setOnClickListener {

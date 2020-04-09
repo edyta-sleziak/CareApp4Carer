@@ -1,6 +1,5 @@
 package org.wit.careapp4carer.ui.notifications
 
-import android.app.Notification
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,9 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_notifications.view.*
 import org.wit.careapp4carer.R
 import org.wit.careapp4carer.models.NotificationsModel
 import org.wit.careapp4carer.models.firebase.NotificationsFireStore
@@ -53,7 +51,9 @@ class NotificationsRecyclerViewAdapter(var notificationsList: List<Notifications
         }
 
         holder.itemView.setOnClickListener{
-            Log.d("CLICKED:", " clicked on item ${mNotificationsListItem.notification}")
+            Log.d("CLICKED:", " clicked on item ${mNotificationsListItem?.notification}")
+            var action : NotificationsFragmentDirections.ActionNavNotificationsToAddNotificationFragment = NotificationsFragmentDirections.actionNavNotificationsToAddNotificationFragment(mNotificationsListItem)
+            it.findNavController().navigate(action)
             //TODO edit data (pass mNotificationListItem as parameter
         }
 

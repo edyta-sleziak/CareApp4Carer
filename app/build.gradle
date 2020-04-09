@@ -5,6 +5,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: "androidx.navigation.safeargs"
+apply plugin: 'org.jetbrains.kotlin.android.extensions'
 
 android {
     compileSdkVersion 29
@@ -34,6 +35,9 @@ android {
     }
     dataBinding {
         enabled = true
+    }
+    androidExtensions {
+        experimental = true
     }
 }
 

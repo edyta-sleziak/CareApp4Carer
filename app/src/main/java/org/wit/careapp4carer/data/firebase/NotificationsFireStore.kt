@@ -48,6 +48,12 @@ class NotificationsFireStore() : NotificationsStore {
         }
     }
 
+    fun editNotification(notification: NotificationsModel) {
+        val notificationId = notification.id
+        Log.d("firebase update", "$notification")
+        db.child("Users").child(userId).child("Notifications").child(notificationId).setValue(notification)
+    }
+
     fun clear() {
         listOfItems.clear()
     }
@@ -69,7 +75,6 @@ class NotificationsFireStore() : NotificationsStore {
                 dataSnapshot.children.mapNotNullTo(listOfItems) { it.getValue<NotificationsModel>(
                     NotificationsModel::class.java) }
                 Log.d("saved data", "$listOfItems")
-
             }
         })
     }

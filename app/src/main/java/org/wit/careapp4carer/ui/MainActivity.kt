@@ -12,16 +12,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import org.wit.careapp4carer.R
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.net.Uri
-import android.util.Log
 import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.nav_header_main.*
-import org.wit.careapp4carer.AddNotificationFragment
-import org.wit.careapp4carer.NotificationHistoryFragment
+import org.wit.careapp4carer.ui.notifications.AddNotificationFragment
+import org.wit.careapp4carer.ui.notifications.history.NotificationHistoryFragment
 
 
 class MainActivity : AppCompatActivity(),

@@ -49,12 +49,17 @@
         tools:layout="@layout/fragment_reports" />
     <fragment
         android:id="@+id/addNotificationFragment"
-        android:name="org.wit.careapp4carer.AddNotificationFragment"
+        android:name="org.wit.careapp4carer.ui.notifications.AddNotificationFragment"
         android:label="fragment_add_notification"
-        tools:layout="@layout/fragment_add_notification" />
+        tools:layout="@layout/fragment_add_notification" >
+        <argument
+            android:name="notification"
+            app:argType="org.wit.careapp4carer.models.NotificationsModel"
+            app:nullable="true" />
+    </fragment>
     <fragment
         android:id="@+id/notificationHistoryFragment"
-        android:name="org.wit.careapp4carer.NotificationHistoryFragment"
+        android:name="org.wit.careapp4carer.ui.notifications.history.NotificationHistoryFragment"
         android:label="fragment_notification_history"
         tools:layout="@layout/fragment_notification_history" />
 </navigation>
