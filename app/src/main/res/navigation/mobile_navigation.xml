@@ -50,8 +50,8 @@
     <fragment
         android:id="@+id/addNotificationFragment"
         android:name="org.wit.careapp4carer.ui.notifications.AddNotificationFragment"
-        android:label="fragment_add_notification"
-        tools:layout="@layout/fragment_add_notification" >
+        android:label="Notification Details"
+        tools:layout="@layout/fragment_add_notification">
         <argument
             android:name="notification"
             app:argType="org.wit.careapp4carer.models.NotificationsModel"
@@ -60,6 +60,6 @@
     <fragment
         android:id="@+id/notificationHistoryFragment"
         android:name="org.wit.careapp4carer.ui.notifications.history.NotificationHistoryFragment"
-        android:label="fragment_notification_history"
+        android:label="Notifications History"
         tools:layout="@layout/fragment_notification_history" />
 </navigation>
