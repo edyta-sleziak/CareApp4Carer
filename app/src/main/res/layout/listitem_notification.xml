@@ -37,6 +37,17 @@
             app:layout_constraintTop_toBottomOf="@+id/notificationName" />
 
         <TextView
+            android:id="@+id/notificationDisplayTime"
+            android:layout_width="118dp"
+            android:layout_height="39dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/hint_DisplayDate"
+            app:layout_constraintEnd_toStartOf="@+id/notificationCompletedDate"
+            app:layout_constraintStart_toStartOf="@+id/notificationName"
+            app:layout_constraintTop_toBottomOf="@+id/notificationDisplayDate" />
+
+        <TextView
             android:id="@+id/notificationCompletedDate"
             android:layout_width="120dp"
             android:layout_height="49dp"

@@ -1,5 +1,7 @@
 package org.wit.careapp4carer.ui.notifications
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
@@ -9,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.TimePicker
 import androidx.navigation.findNavController
 import kotlinx.android.synthetic.main.fragment_add_notification.*
 import kotlinx.android.synthetic.main.fragment_add_notification.view.*
@@ -19,6 +22,8 @@ import org.wit.careapp4carer.models.NotificationsModel
 import org.wit.careapp4carer.models.firebase.NotificationsFireStore
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.math.min
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -57,25 +62,47 @@ class AddNotificationFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_add_notification, container, false)
 
+        view.notification_date.setOnClickListener {
+            val datepicker = Calendar.getInstance()
+            val year = datepicker.get(Calendar.YEAR)
+            val month = datepicker.get(Calendar.MONTH)
+            val day = datepicker.get(Calendar.DAY_OF_MONTH )
+            val datePickerDialog = DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener { DatePicker, year, month, dayOfMonth ->
+                notification_date.setText("$dayOfMonth/"+ ((month)+1) +"/$year")
+            }, year, month, day)
+            datePickerDialog.show()
+        }
+
+        view.notification_time.setOnClickListener {
+            val timepicker = Calendar.getInstance()
+            val hour = timepicker.get(Calendar.HOUR)
+            val minutes = timepicker.get(Calendar.MINUTE)
+            val timePickerDialog = TimePickerDialog(requireContext(), TimePickerDialog.OnTimeSetListener { TimePicker, hour, minutes ->
+                notification_time.setText("$hour:$minutes")
+            }, hour, minutes, true)
+            timePickerDialog.show()
+        }
+
         view.button_saveNotification.setOnClickListener {
             val selectedNotification: NotificationsModel?
             if (arguments?.get("notification") == null) {
-                var notification = notification_text.text.toString()
-                var displayTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-                var newNotification = NotificationsModel("",notification, displayTime)
+                val notification = notification_text.text.toString()
+                val displayDate = notification_date.text.toString()
+                val displayTime = notification_time.text.toString()
+                val newNotification = NotificationsModel("",notification, displayDate, displayTime)
                 notificationsList.addNewNotification(newNotification)
                 Log.d("D","added + $notification")
                 it.findNavController().navigate(R.id.nav_notifications)
             } else {
-                var args: AddNotificationFragmentArgs =
+                val args: AddNotificationFragmentArgs =
                     AddNotificationFragmentArgs.fromBundle(requireArguments())
                 selectedNotification = args.notification
                 Log.d("D","edited")
                 if (selectedNotification != null) {
-                    var notification = notification_text.text.toString()
-                    var displayTime = LocalDateTime.now()
-                        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-                    var updatedNotification = NotificationsModel(selectedNotification.id, notification, displayTime)
+                    val notification = notification_text.text.toString()
+                    val displayDate = notification_date.text.toString()
+                    val displayTime = notification_time.text.toString()
+                    val updatedNotification = NotificationsModel(selectedNotification.id, notification, displayDate, displayTime)
                     notificationsList.editNotification(updatedNotification)
                 }
                 it.findNavController().navigate(R.id.nav_notifications)
@@ -91,7 +118,8 @@ class AddNotificationFragment : Fragment() {
                 AddNotificationFragmentArgs.fromBundle(requireArguments())
             var passedNotification = args.notification
             notification_text.setText(passedNotification?.notification)
-            notification_date.setText(passedNotification?.displayTime)
+            notification_date.setText(passedNotification?.displayDate)
+            notification_time.setText(passedNotification?.displayTime)
             Log.d("msg", "$passedNotification")
         }
 

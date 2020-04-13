@@ -41,8 +41,12 @@ class NotificationsRecyclerViewAdapter(var notificationsList: List<Notifications
             holder.notificationCompletedDate.setText(mNotificationsListItem.completedTime)
         }
 
+        if(mNotificationsListItem.displayDate != null) {
+            holder.notificationDisplayDate.setText(mNotificationsListItem.displayDate)
+        }
+
         if(mNotificationsListItem.displayTime != null) {
-            holder.notificationDisplayDate.setText(mNotificationsListItem.displayTime)
+            holder.notificationDisplayTime.setText(mNotificationsListItem.displayTime)
         }
 
         holder.buttonDelete.setOnClickListener{
@@ -67,6 +71,7 @@ class NotificationsRecyclerViewAdapter(var notificationsList: List<Notifications
         val notificationName: TextView = itemView.findViewById(R.id.notificationName)
         val notificationCompletedDate: TextView = itemView.findViewById(R.id.notificationCompletedDate)
         val notificationDisplayDate: TextView = itemView.findViewById(R.id.notificationDisplayDate)
+        val notificationDisplayTime: TextView = itemView.findViewById(R.id.notificationDisplayTime)
         val buttonDelete: ImageView = itemView.findViewById(R.id.button_deleteNotification)
 
     }
