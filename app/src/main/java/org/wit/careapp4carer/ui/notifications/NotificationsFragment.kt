@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.listitem_notification.view.*
@@ -23,7 +24,7 @@ class NotificationsFragment : Fragment() {
     private lateinit var notificationViewModel: NotificationsViewModel
     private lateinit var mRecycleView: RecyclerView
     private lateinit var mRecyclerViewAdapter: NotificationsRecyclerViewAdapter
-    private var notificationsList = NotificationsFireStore()
+    private lateinit var notificationsList : List<NotificationsModel>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,9 +38,9 @@ class NotificationsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_notifications, container, false)
 
         mRecycleView = view.findViewById(R.id.notification_recyclerView)
-        val linearLayoutManager = LinearLayoutManager(
+        mRecycleView.layoutManager = LinearLayoutManager(
             requireActivity().applicationContext, RecyclerView.VERTICAL,false)
-        mRecycleView.layoutManager = linearLayoutManager
+
 
         notificationViewModel.getNotificationsList()
             .observe(viewLifecycleOwner, Observer{ notificationslist ->
@@ -47,13 +48,15 @@ class NotificationsFragment : Fragment() {
                     NotificationsRecyclerViewAdapter(
                         notificationslist
                     )
+                mRecyclerViewAdapter = NotificationsRecyclerViewAdapter(notificationslist)
+                val itemTouchHelper = ItemTouchHelper(mRecyclerViewAdapter.swipeToDeleteCallback)
+                itemTouchHelper.attachToRecyclerView(mRecycleView)
             })
 
         view.button_addNotification.setOnClickListener {
             var newNotification = null
             var action : NotificationsFragmentDirections.ActionNavNotificationsToAddNotificationFragment = NotificationsFragmentDirections.actionNavNotificationsToAddNotificationFragment(newNotification)
             it.findNavController().navigate(action)
-//            view.findNavController().navigate(R.id.addNotificationFragment)
         }
 
         view.button_seeHistory.setOnClickListener {

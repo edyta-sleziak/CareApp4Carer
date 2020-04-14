@@ -1,14 +1,21 @@
 package org.wit.careapp4carer.ui.notifications
 
 import android.content.Context
+import android.content.res.Resources
+import android.graphics.*
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Adapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
+import org.jetbrains.anko.internals.AnkoInternals.getContext
 import org.wit.careapp4carer.R
 import org.wit.careapp4carer.models.NotificationsModel
 import org.wit.careapp4carer.models.firebase.NotificationsFireStore
@@ -18,6 +25,25 @@ class NotificationsRecyclerViewAdapter(var notificationsList: List<Notifications
 
     private var mContext: Context? = null
     private var dbNotificationsList = NotificationsFireStore()
+
+    val swipeToDeleteCallback = object : SwipeToDeleteCallback() {
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            val pos = viewHolder.adapterPosition
+//            dbNotificationsList.removeNotification(notificationsList.get(pos).id)
+//            notifyDataSetChanged()
+//            notifyItemRemoved(pos)
+//            notifyItemRangeChanged(pos, notificationsList.size)
+
+            if (direction == ItemTouchHelper.LEFT) {
+                //val deletedModel = imageModelArrayList!![pos]
+                dbNotificationsList.removeNotification(notificationsList.get(pos).id)
+            } else {
+                var newNotification = NotificationsModel("", notificationsList!!.get(pos).notification, "", "")
+                var action : NotificationsFragmentDirections.ActionNavNotificationsToAddNotificationFragment = NotificationsFragmentDirections.actionNavNotificationsToAddNotificationFragment(newNotification)
+                viewHolder.itemView.findNavController().navigate(action)
+            }
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         this.mContext=parent.context
@@ -56,9 +82,8 @@ class NotificationsRecyclerViewAdapter(var notificationsList: List<Notifications
 
         holder.itemView.setOnClickListener{
             Log.d("CLICKED:", " clicked on item ${mNotificationsListItem?.notification}")
-            var action : NotificationsFragmentDirections.ActionNavNotificationsToAddNotificationFragment = NotificationsFragmentDirections.actionNavNotificationsToAddNotificationFragment(mNotificationsListItem)
+            val action : NotificationsFragmentDirections.ActionNavNotificationsToAddNotificationFragment = NotificationsFragmentDirections.actionNavNotificationsToAddNotificationFragment(mNotificationsListItem)
             it.findNavController().navigate(action)
-            //TODO edit data (pass mNotificationListItem as parameter
         }
 
 
@@ -73,6 +98,90 @@ class NotificationsRecyclerViewAdapter(var notificationsList: List<Notifications
         val notificationDisplayDate: TextView = itemView.findViewById(R.id.notificationDisplayDate)
         val notificationDisplayTime: TextView = itemView.findViewById(R.id.notificationDisplayTime)
         val buttonDelete: ImageView = itemView.findViewById(R.id.button_deleteNotification)
+
+    }
+
+
+    abstract class SwipeToDeleteCallback : ItemTouchHelper.Callback() {
+
+        override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
+            val swipeFlag = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+            return makeMovementFlags(0, swipeFlag)
+        }
+
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+            return false
+        }
+
+        override fun onChildDraw(
+            c: Canvas,
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            dX: Float,
+            dY: Float,
+            actionState: Int,
+            isCurrentlyActive: Boolean
+        ) {
+            val icon: Bitmap
+            if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+
+                val itemView = viewHolder.itemView
+                val height = itemView.bottom.toFloat() - itemView.top.toFloat()
+                val width = height / 3
+                val p = Paint()
+
+                if (dX > 0) {
+                    p.color = Color.parseColor("#388E3C")
+                    val background =
+                        RectF(
+                            itemView.left.toFloat(),
+                            itemView.top.toFloat(),
+                            dX,
+                            itemView.bottom.toFloat()
+                        )
+                    c.drawRect(background, p)
+                    icon = BitmapFactory.decodeResource(itemView.resources, R.drawable.duplicate)
+                    val icon_dest = RectF(
+                        itemView.left.toFloat() + width,
+                        itemView.top.toFloat() + width,
+                        itemView.left.toFloat() + 2 * width,
+                        itemView.bottom.toFloat() - width
+                    )
+                    c.drawBitmap(icon, null, icon_dest, p)
+                } else {
+                    p.color = Color.parseColor("#D32F2F")
+                    val background = RectF(
+                        itemView.right.toFloat() + dX,
+                        itemView.top.toFloat(),
+                        itemView.right.toFloat(),
+                        itemView.bottom.toFloat()
+                    )
+                    c.drawRect(background, p)
+                    icon = BitmapFactory.decodeResource(itemView.context.resources, R.drawable.delete)
+                    val icon_dest = RectF(
+                        itemView.right.toFloat() - 2 * width,
+                        itemView.top.toFloat() + width,
+                        itemView.right.toFloat() - width,
+                        itemView.bottom.toFloat() - width
+                    )
+                    c.drawBitmap(icon, null, icon_dest, p)
+                }
+                super.onChildDraw(
+                    c,
+                    recyclerView,
+                    viewHolder,
+                    dX,
+                    dY,
+                    actionState,
+                    isCurrentlyActive
+                )
+            }
+
+        }
 
     }
 

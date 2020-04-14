@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.TimePicker
+import android.widget.Toast
 import androidx.navigation.findNavController
 import kotlinx.android.synthetic.main.fragment_add_notification.*
 import kotlinx.android.synthetic.main.fragment_add_notification.view.*
@@ -84,28 +85,39 @@ class AddNotificationFragment : Fragment() {
         }
 
         view.button_saveNotification.setOnClickListener {
-            val selectedNotification: NotificationsModel?
-            if (arguments?.get("notification") == null) {
+            val args: AddNotificationFragmentArgs =
+                AddNotificationFragmentArgs.fromBundle(requireArguments())
+            val selectedNotification = args.notification
+            if (arguments?.get("notification") == null || selectedNotification?.id == "") {
                 val notification = notification_text.text.toString()
                 val displayDate = notification_date.text.toString()
                 val displayTime = notification_time.text.toString()
-                val newNotification = NotificationsModel("",notification, displayDate, displayTime)
-                notificationsList.addNewNotification(newNotification)
-                Log.d("D","added + $notification")
-                it.findNavController().navigate(R.id.nav_notifications)
+                if (notification == "" || displayDate == "" || displayTime == "") {
+                    val text = "Please fill all fields!"
+                    val duration = Toast.LENGTH_LONG
+                    val toast = Toast.makeText(requireContext(), text, duration)
+                    toast.show()
+                } else {
+                    val newNotification = NotificationsModel("", notification, displayDate, displayTime)
+                    notificationsList.addNewNotification(newNotification)
+                    it.findNavController().navigate(R.id.nav_notifications)
+                }
             } else {
-                val args: AddNotificationFragmentArgs =
-                    AddNotificationFragmentArgs.fromBundle(requireArguments())
-                selectedNotification = args.notification
-                Log.d("D","edited")
                 if (selectedNotification != null) {
                     val notification = notification_text.text.toString()
                     val displayDate = notification_date.text.toString()
                     val displayTime = notification_time.text.toString()
-                    val updatedNotification = NotificationsModel(selectedNotification.id, notification, displayDate, displayTime)
-                    notificationsList.editNotification(updatedNotification)
+                    if (notification == "" || displayDate == "" || displayTime == "") {
+                        val text = "Please fill all fields!"
+                        val duration = Toast.LENGTH_LONG
+                        val toast = Toast.makeText(requireContext(), text, duration)
+                        toast.show()
+                    } else {
+                        val updatedNotification = NotificationsModel(selectedNotification.id, notification, displayDate, displayTime)
+                        notificationsList.editNotification(updatedNotification)
+                        it.findNavController().navigate(R.id.nav_notifications)
+                    }
                 }
-                it.findNavController().navigate(R.id.nav_notifications)
             }
         }
         return view
@@ -124,11 +136,6 @@ class AddNotificationFragment : Fragment() {
         }
 
     }
-
-//    // TODO: Rename method, update argument and hook method into UI event
-//    fun onButtonPressed(uri: Uri) {
-//        listener?.onFragmentInteraction(uri)
-//    }
 
 
     override fun onAttach(context: Context) {
