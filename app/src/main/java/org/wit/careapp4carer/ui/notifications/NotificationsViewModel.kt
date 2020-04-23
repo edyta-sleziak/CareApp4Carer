@@ -15,15 +15,15 @@ import org.wit.careapp4carer.models.firebase.NotificationsFireStore
 class NotificationsViewModel : ViewModel()  {
 
     val notificationsFireStore = NotificationsFireStore()
-    val mItemsList: LiveData<ArrayList<NotificationsModel>> get() = notificationsFireStore.getMutalbleLiveData()
-
-
+    val mItemsList: LiveData<ArrayList<NotificationsModel>> get() = notificationsFireStore.getActiveNotification()
+    val mCompletedItemsList: LiveData<ArrayList<NotificationsModel>> get() = notificationsFireStore.getCompletedNotification()
 
     fun getNotificationsList(): LiveData<ArrayList<NotificationsModel>> {
         return mItemsList
     }
 
-
-
+    fun getCompletedNotificationsList(): LiveData<ArrayList<NotificationsModel>> {
+        return mCompletedItemsList
+    }
 
 }

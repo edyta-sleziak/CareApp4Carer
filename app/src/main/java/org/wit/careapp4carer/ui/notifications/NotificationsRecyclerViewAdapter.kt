@@ -75,10 +75,10 @@ class NotificationsRecyclerViewAdapter(var notificationsList: List<Notifications
             holder.notificationDisplayTime.setText(mNotificationsListItem.displayTime)
         }
 
-        holder.buttonDelete.setOnClickListener{
-            dbNotificationsList.removeNotification(mNotificationsListItem.id)
-            notifyDataSetChanged()
-        }
+//        holder.buttonDelete.setOnClickListener{
+//            dbNotificationsList.removeNotification(mNotificationsListItem.id)
+//            notifyDataSetChanged()
+//        }
 
         holder.itemView.setOnClickListener{
             Log.d("CLICKED:", " clicked on item ${mNotificationsListItem?.notification}")
@@ -97,7 +97,7 @@ class NotificationsRecyclerViewAdapter(var notificationsList: List<Notifications
         val notificationCompletedDate: TextView = itemView.findViewById(R.id.notificationCompletedDate)
         val notificationDisplayDate: TextView = itemView.findViewById(R.id.notificationDisplayDate)
         val notificationDisplayTime: TextView = itemView.findViewById(R.id.notificationDisplayTime)
-        val buttonDelete: ImageView = itemView.findViewById(R.id.button_deleteNotification)
+        //val buttonDelete: ImageView = itemView.findViewById(R.id.button_deleteNotification)
 
     }
 

@@ -7,6 +7,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.listitem_notification.view.*
 import org.wit.careapp4carer.models.NotificationsModel
 import org.wit.careapp4carer.models.NotificationsStore
 import org.wit.careapp4carer.models.TodoModel
@@ -21,6 +22,20 @@ class NotificationsFireStore() : NotificationsStore {
     override fun getAll(): ArrayList<NotificationsModel> {
         fetchData()
         return listOfItems
+    }
+
+    fun getCompletedNotification(): MutableLiveData<ArrayList<NotificationsModel>> {
+        fetchData()
+        var completedNotifications = listOfItems.filter { n -> n.completedTime != "Not completed" }
+        mListOfItems.value = ArrayList(completedNotifications)
+        return mListOfItems
+    }
+
+    fun getActiveNotification(): MutableLiveData<ArrayList<NotificationsModel>> {
+        fetchData()
+        var activeNotifications = listOfItems.filter { n -> n.completedTime == "Not completed" }
+        mListOfItems.value = ArrayList(activeNotifications)
+        return mListOfItems
     }
 
     fun getMutalbleLiveData(): MutableLiveData<ArrayList<NotificationsModel>> {
@@ -38,6 +53,8 @@ class NotificationsFireStore() : NotificationsStore {
     override fun displayLater(noteId: Long) {
 
     }
+
+
 
     override fun addNewNotification(notification: NotificationsModel) {
         val key = db.child("Users").child(userId).child("Notifications").push().key
