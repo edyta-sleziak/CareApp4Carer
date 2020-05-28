@@ -1,6 +1,7 @@
 package org.wit.careapp4carer.models.firebase
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -11,10 +12,13 @@ import kotlinx.android.synthetic.main.listitem_notification.view.*
 import org.wit.careapp4carer.models.NotificationsModel
 import org.wit.careapp4carer.models.NotificationsStore
 import org.wit.careapp4carer.models.TodoModel
+import kotlin.concurrent.timerTask
 
 class NotificationsFireStore() : NotificationsStore {
 
     private var listOfItems = ArrayList<NotificationsModel>()
+    private var activeNotificationsCount: Int = 0
+    private var completedNotificationsCountInt = 0
     private var mListOfItems = MutableLiveData<ArrayList<NotificationsModel>>()
     private var db = FirebaseDatabase.getInstance().reference
     private var userId = FirebaseAuth.getInstance().currentUser!!.uid
@@ -26,16 +30,35 @@ class NotificationsFireStore() : NotificationsStore {
 
     fun getCompletedNotification(): MutableLiveData<ArrayList<NotificationsModel>> {
         fetchData()
-        var completedNotifications = listOfItems.filter { n -> n.completedTime != "Not completed" }
+        val completedNotifications = listOfItems.filter { n -> n.completedTime != "Not completed" }
         mListOfItems.value = ArrayList(completedNotifications)
         return mListOfItems
     }
 
     fun getActiveNotification(): MutableLiveData<ArrayList<NotificationsModel>> {
         fetchData()
-        var activeNotifications = listOfItems.filter { n -> n.completedTime == "Not completed" }
+        val activeNotifications = listOfItems.filter { n -> n.completedTime == "Not completed" }
         mListOfItems.value = ArrayList(activeNotifications)
         return mListOfItems
+    }
+
+    fun getActiveNotificationCount(): Int {
+        fetchData()
+        val list = listOfItems.filter { n -> n.completedTime == "Not completed" }
+        activeNotificationsCount = list.size
+        Log.d("filtered ACTIVE", "${list}")
+        Log.d("listOfItems in getActiveNotificationCount", "${listOfItems}")
+        Log.d("filtered ACTIVE size", "${list.size}")
+        return activeNotificationsCount
+    }
+
+    fun getCOmpletedNotificationCount(): Int {
+        fetchData()
+        val list = listOfItems.filter { n -> n.completedTime != "Not completed" }
+        completedNotificationsCountInt = list.size
+        Log.d("list COMPLETED", "${list.size}")
+        Log.d("list COMPLETED", "${list}")
+        return completedNotificationsCountInt
     }
 
     fun getMutalbleLiveData(): MutableLiveData<ArrayList<NotificationsModel>> {
@@ -91,7 +114,7 @@ class NotificationsFireStore() : NotificationsStore {
                 Log.d("snapshot ", "$dataSnapshot")
                 dataSnapshot.children.mapNotNullTo(listOfItems) { it.getValue<NotificationsModel>(
                     NotificationsModel::class.java) }
-                Log.d("saved data", "$listOfItems")
+                Log.d("list ", "$listOfItems")
             }
         })
     }
