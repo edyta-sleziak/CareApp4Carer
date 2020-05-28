@@ -21,7 +21,17 @@
         android:id="@+id/nav_notes"
         android:name="org.wit.careapp4carer.ui.notes.NotesFragment"
         android:label="@string/menu_notes"
-        tools:layout="@layout/fragment_notes" />
+        tools:layout="@layout/fragment_notes" >
+        <action
+            android:id="@+id/action_nav_notes_to_addNote"
+            app:destination="@id/AddNoteFragment" />
+        <action
+            android:id="@+id/action_nav_notes_to_noteDetailsFragment"
+            app:destination="@id/noteDetailsFragment" />
+        <action
+            android:id="@+id/action_nav_notes_to_notesHistoryFragment"
+            app:destination="@id/notesHistoryFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_settings"
@@ -62,4 +72,23 @@
         android:name="org.wit.careapp4carer.ui.notifications.history.NotificationHistoryFragment"
         android:label="Notifications History"
         tools:layout="@layout/fragment_notification_history" />
+    <fragment
+        android:id="@+id/AddNoteFragment"
+        android:name="org.wit.careapp4carer.AddNote"
+        android:label="fragment_add_note"
+        tools:layout="@layout/fragment_add_note" />
+    <fragment
+        android:id="@+id/noteDetailsFragment"
+        android:name="org.wit.careapp4carer.NoteDetailsFragment"
+        android:label="fragment_note_details"
+        tools:layout="@layout/fragment_note_details" />
+    <fragment
+        android:id="@+id/notesHistoryFragment"
+        android:name="org.wit.careapp4carer.NotesHistoryFragment"
+        android:label="fragment_notes_history"
+        tools:layout="@layout/fragment_notes_history" >
+        <action
+            android:id="@+id/action_notesHistoryFragment_to_noteDetailsFragment"
+            app:destination="@id/noteDetailsFragment" />
+    </fragment>
 </navigation>
