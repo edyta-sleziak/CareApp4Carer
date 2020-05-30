@@ -1,14 +1,15 @@
 package org.wit.careapp4carer.models
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import java.time.LocalDateTime
 
+@Parcelize
 data class NotesModel(
-    var id: Long = 0,
+    var id: String = "",
+    var title: String = "",
     var note: String = "",
-    var createdDate: LocalDateTime = LocalDateTime.now(),
-    var createdBy: String = "",
-    var updatedDate: LocalDateTime = LocalDateTime.now(),
+    var updatedDate: String = "",
     var updatedBy: String = "",
-    var isActive: Boolean = true,
-    var userId: Long = 0
-)
+    var isActive: Boolean = true
+) : Parcelable
 

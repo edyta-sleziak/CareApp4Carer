@@ -15,13 +15,15 @@ import org.wit.careapp4carer.R
 import android.net.Uri
 import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
+import org.wit.careapp4carer.ui.notes.AddNote
 import org.wit.careapp4carer.ui.notifications.AddNotificationFragment
 import org.wit.careapp4carer.ui.notifications.history.NotificationHistoryFragment
 
 
 class MainActivity : AppCompatActivity(),
         AddNotificationFragment.OnFragmentInteractionListener,
-        NotificationHistoryFragment.OnFragmentInteractionListener
+        NotificationHistoryFragment.OnFragmentInteractionListener,
+        AddNote.OnFragmentInteractionListener
 {
 
     private lateinit var appBarConfiguration: AppBarConfiguration

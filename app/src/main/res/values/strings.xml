@@ -31,11 +31,16 @@
     <string name="button_delete">Delete</string>
     <string name="button_duplicate">Duplicate</string>
     <string name="button_save">Save</string>
-    <string name="hint_DisplayDate">Display Date:</string>
+    <string name="hint_display_date">Display Date:</string>
+    <string name="hint_display_time">Display Time:</string>
+    <string name="hint_completed_date">Completed Date:</string>
     <string name="DisplayDateTime">$ displayDate</string>
 
     <string name="button_notesHistory">Display history</string>
     <string name="button_noteDetails">Display note</string>
+    <string name="note_title">$ noteTitle</string>
+    <string name="update_date">$ updateDate</string>
+    <string name="updated_by">$ updatedBy</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
