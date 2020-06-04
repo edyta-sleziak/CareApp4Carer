@@ -16,6 +16,7 @@ import android.net.Uri
 import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
 import org.wit.careapp4carer.ui.notes.AddNote
+import org.wit.careapp4carer.ui.notes.NoteDetailsFragment
 import org.wit.careapp4carer.ui.notifications.AddNotificationFragment
 import org.wit.careapp4carer.ui.notifications.history.NotificationHistoryFragment
 
@@ -23,7 +24,8 @@ import org.wit.careapp4carer.ui.notifications.history.NotificationHistoryFragmen
 class MainActivity : AppCompatActivity(),
         AddNotificationFragment.OnFragmentInteractionListener,
         NotificationHistoryFragment.OnFragmentInteractionListener,
-        AddNote.OnFragmentInteractionListener
+        AddNote.OnFragmentInteractionListener,
+        NoteDetailsFragment.OnFragmentInteractionListener
 {
 
     private lateinit var appBarConfiguration: AppBarConfiguration

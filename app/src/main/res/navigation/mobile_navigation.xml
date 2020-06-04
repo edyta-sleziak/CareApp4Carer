@@ -83,7 +83,12 @@
         android:id="@+id/noteDetailsFragment"
         android:name="org.wit.careapp4carer.ui.notes.NoteDetailsFragment"
         android:label="fragment_note_details"
-        tools:layout="@layout/fragment_note_details" />
+        tools:layout="@layout/fragment_note_details" >
+        <argument
+            android:name="note"
+            app:argType="org.wit.careapp4carer.models.NotesModel"
+            app:nullable="true" />
+    </fragment>
     <fragment
         android:id="@+id/notesHistoryFragment"
         android:name="org.wit.careapp4carer.ui.notes.history.NotesHistoryFragment"

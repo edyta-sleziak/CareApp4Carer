@@ -33,12 +33,14 @@ class NotesFireStore() : NotesStore {
     }
     override fun getActiveNotes(): MutableLiveData<ArrayList<NotesModel>> {
         fetchData()
+        listOfItems.reverse()
         val activeNotes = listOfItems.filter { n -> n.isActive  }
         mListOfItems.value = ArrayList(activeNotes)
         return mListOfItems
     }
     override fun getRemovedNotes(): MutableLiveData<ArrayList<NotesModel>> {
         fetchData()
+        listOfItems.reverse()
         val completedNotes = listOfItems.filter { n -> !n.isActive  }
         mListOfItems.value = ArrayList(completedNotes)
         return mListOfItems
@@ -63,7 +65,7 @@ class NotesFireStore() : NotesStore {
     }
 
     fun fetchData() {
-        db.child("Users").child(userId).child("Notes").addValueEventListener(object :
+        db.child("Users").child(userId).child("Notes").orderByChild("updatedDate").addValueEventListener(object :
             ValueEventListener {
             override fun onCancelled(dataSnapshot: DatabaseError) {
                 Log.w("Database error" , "Retrieving data failed")

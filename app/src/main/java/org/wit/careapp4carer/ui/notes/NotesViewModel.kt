@@ -15,4 +15,8 @@ class NotesViewModel : ViewModel() {
     fun getNotesList(): LiveData<ArrayList<NotesModel>> {
         return mItemsList
     }
+
+    fun getRemovedNotesList(): LiveData<ArrayList<NotesModel>> {
+        return mRemovedItemsList
+    }
 }

@@ -3,11 +3,18 @@ package org.wit.careapp4carer.ui.notes
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
+import kotlinx.android.synthetic.main.fragment_note_details.*
+import kotlinx.android.synthetic.main.fragment_note_details.note_content
+import kotlinx.android.synthetic.main.fragment_note_details.view.*
 import org.wit.careapp4carer.R
+import org.wit.careapp4carer.models.NotesModel
+import org.wit.careapp4carer.models.firebase.NotesFireStore
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,6 +34,7 @@ class NoteDetailsFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
+    private var notesList = NotesFireStore()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +49,34 @@ class NoteDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_note_details, container, false)
+        val view =  inflater.inflate(R.layout.fragment_note_details, container, false)
+        view.button_restore.setOnClickListener {
+            val args: AddNoteArgs =
+                AddNoteArgs.fromBundle(requireArguments())
+            val selectedNote = args.note
+            val updateTime = notesList.getDate()
+            val title = note_title.text.toString()
+            val content = note_content.text.toString()
+            val updatedNote = NotesModel(selectedNote!!.id, title, content, updatedBy = "Carer", updatedDate = updateTime, isActive = true)
+            notesList.edit(updatedNote)
+            it.findNavController().navigate(R.id.nav_notes)
+        }
+
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (arguments != null) {
+            var args: AddNoteArgs =
+                AddNoteArgs.fromBundle(requireArguments())
+            var passedNote = args.note
+            note_title.setText(passedNote?.title)
+            note_content.setText(passedNote?.note)
+            note_update_date.setText(passedNote?.updatedDate)
+            note_updated_by.setText(passedNote?.updatedBy)
+            Log.d("msg", "$passedNote")
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
