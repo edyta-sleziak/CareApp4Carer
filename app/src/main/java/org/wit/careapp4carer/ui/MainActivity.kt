@@ -19,13 +19,17 @@ import org.wit.careapp4carer.ui.notes.AddNote
 import org.wit.careapp4carer.ui.notes.NoteDetailsFragment
 import org.wit.careapp4carer.ui.notifications.AddNotificationFragment
 import org.wit.careapp4carer.ui.notifications.history.NotificationHistoryFragment
+import org.wit.careapp4carer.ui.todo.history.toDoHistoryFragment
+import org.wit.careapp4carer.ui.todo.toDoItemEditFragment
 
 
 class MainActivity : AppCompatActivity(),
         AddNotificationFragment.OnFragmentInteractionListener,
         NotificationHistoryFragment.OnFragmentInteractionListener,
         AddNote.OnFragmentInteractionListener,
-        NoteDetailsFragment.OnFragmentInteractionListener
+        NoteDetailsFragment.OnFragmentInteractionListener,
+        toDoItemEditFragment.OnFragmentInteractionListener,
+        toDoHistoryFragment.OnFragmentInteractionListener
 {
 
     private lateinit var appBarConfiguration: AppBarConfiguration

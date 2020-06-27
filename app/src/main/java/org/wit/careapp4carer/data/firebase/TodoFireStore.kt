@@ -27,13 +27,31 @@ class TodoFireStore() : TodoStore {
         return todoItemsMut
     }
 
-    override fun getActiveOnly(): List<TodoModel> {
-        val notCompletedItems: List<TodoModel> = todoItems.filter { t -> t.isCompleted }
-        return notCompletedItems
+    override fun remove(taskId: String) {
+        db.child("Users").child(userId).child("ToDoItems").child(taskId).child("completed").setValue(true)
     }
-    override fun markAsDone(todoItemId: Long) {
-        //EP only
+
+    override fun edit(task: TodoModel) {
+        val taskId = task.id
+        Log.d("firebase update", "$task")
+        db.child("Users").child(userId).child("ToDoItems").child(taskId).setValue(task)
     }
+
+    override fun getActiveOnly(): MutableLiveData<ArrayList<TodoModel>> {
+        fetchData()
+        val activeItems = todoItems.filter { i -> !i.isCompleted }
+        todoItemsMut.value = ArrayList(activeItems)
+        Log.d("pyciok", activeItems.toString())
+        return todoItemsMut
+    }
+
+    override fun getCompletedOnly(): MutableLiveData<ArrayList<TodoModel>> {
+        fetchData()
+        val completedItems = todoItems.filter { i -> i.isCompleted }
+        todoItemsMut.value = ArrayList(completedItems)
+        return todoItemsMut
+    }
+
 
     override fun addNewTodoItem(task: TodoModel) {
         val key = db.child("Users").child(userId).child("ToDoItems").push().key
@@ -54,6 +72,7 @@ class TodoFireStore() : TodoStore {
                 Log.w("Database error" , "Retrieving data failed")
             }
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                clear()
                 Log.d("snapshot ", "$dataSnapshot")
                 dataSnapshot.children.mapNotNullTo(todoItems) { it.getValue<TodoModel>(
                     TodoModel::class.java) }

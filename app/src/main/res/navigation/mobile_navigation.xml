@@ -15,7 +15,14 @@
         android:id="@+id/nav_todo"
         android:name="org.wit.careapp4carer.ui.todo.ToDoFragment"
         android:label="@string/menu_todo"
-        tools:layout="@layout/fragment_todo" />
+        tools:layout="@layout/fragment_todo" >
+        <action
+            android:id="@+id/action_nav_todo_to_toDoItemEditFragment"
+            app:destination="@id/ToDoItemEditFragment" />
+        <action
+            android:id="@+id/action_nav_todo_to_toDoHistoryFragment"
+            app:destination="@id/toDoHistoryFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_notes"
@@ -97,5 +104,20 @@
         <action
             android:id="@+id/action_notesHistoryFragment_to_noteDetailsFragment"
             app:destination="@id/noteDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/toDoHistoryFragment"
+        android:name="org.wit.careapp4carer.ui.todo.history.toDoHistoryFragment"
+        android:label="fragment_to_do_history"
+        tools:layout="@layout/fragment_to_do_history" />
+    <fragment
+        android:id="@+id/ToDoItemEditFragment"
+        android:name="org.wit.careapp4carer.ui.todo.toDoItemEditFragment"
+        android:label="fragment_to_do_item_edit"
+        tools:layout="@layout/fragment_to_do_item_edit" >
+        <argument
+            android:name="task"
+            app:argType="org.wit.careapp4carer.models.TodoModel"
+            app:nullable="true" />
     </fragment>
 </navigation>
