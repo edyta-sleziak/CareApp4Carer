@@ -22,6 +22,10 @@
             android:name=".ui.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity
+            android:name=".ui.sosNotification.SosNotificationView"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
