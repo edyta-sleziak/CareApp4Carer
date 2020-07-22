@@ -13,6 +13,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
+import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.EmailAuthProvider
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.fragment_settings.view.*
@@ -95,9 +98,8 @@ class SettingsFragment : Fragment() {
                 view.home_distance.setSelection(adapterRange.getPosition(accountData.saveHomeDistance))
                 view.steps_goal.setSelection(adapterSteps.getPosition(accountData.dailyStepsGoal))
                 view.response_time.setSelection(adapterTime.getPosition(accountData.notificationResponseTime))
-                view.home_location.setText("Lat.: "+accountData.location.lat.toString()+" Long.: "+accountData.location.lng.toString() )
+                view.home_location.setText("Lat.: "+accountData.location.lat.toString()+"\n Long.: "+accountData.location.lng.toString() )
             })
-        //}
 
         view.button_update_account_details.setOnClickListener {
             val accountName = account_name.text.toString()
@@ -114,14 +116,30 @@ class SettingsFragment : Fragment() {
         view.button_update_password.setOnClickListener {
             val oldPassword = old_password.text.toString()
             val newPassword = new_password.text.toString()
+
             if (oldPassword == "" || newPassword == "") {
-                Toast.makeText(
-                    requireContext(),
-                    "Please provide current and new password!",
-                    Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(requireActivity(), "Please provide current and new password!", Toast.LENGTH_LONG ).show()
             } else {
-                viewModel.changePassword(oldPassword, newPassword)
+                FirebaseAuth.getInstance().currentUser?.updatePassword(newPassword)
+                val user = FirebaseAuth.getInstance().currentUser!!
+                val email = user.email
+                val credentials: AuthCredential = EmailAuthProvider.getCredential(email!!, oldPassword)
+
+                user.reauthenticate(credentials).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(
+                            requireActivity(),
+                            "Success! Password changed",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            requireActivity(),
+                            "Password not changed - old password mismatch",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
             }
         }
 

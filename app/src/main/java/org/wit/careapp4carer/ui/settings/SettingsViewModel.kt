@@ -25,8 +25,4 @@ class SettingsViewModel : ViewModel() {
         settingFireStore.updateApplicationInDb(sosContactNumber,saveHrRangeLow,saveHrRangeHigh, saveHomeDistance,dailyStepsGoal,notificationResponseTime)
     }
 
-    fun changePassword(oldPassword: String, newPassword: String) {
-        settingFireStore.updatePasswordInDb(oldPassword,newPassword)
-    }
-
 }

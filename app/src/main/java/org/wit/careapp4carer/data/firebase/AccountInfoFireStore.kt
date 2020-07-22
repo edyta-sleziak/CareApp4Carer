@@ -2,8 +2,14 @@ package org.wit.careapp4carer.models.firebase
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.tasks.Task
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseError
+import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import org.jetbrains.anko.AnkoLogger
@@ -48,6 +54,7 @@ class AccountInfoFireStore() : AccountInfoStore, AnkoLogger {
     fun updateAccountInDb(accountName: String, carerName: String, patientName: String) {
         //user?.updateEmail(accountName) todo reauthenticate
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
+
         db.child("Users").child(userId).child("Settings").child("AccountInfo").child("email").setValue(accountName)
         db.child("Users").child(userId).child("Settings").child("AccountInfo").child("carerName").setValue(carerName)
         db.child("Users").child(userId).child("Settings").child("AccountInfo").child("epName").setValue(patientName)
@@ -68,9 +75,18 @@ class AccountInfoFireStore() : AccountInfoStore, AnkoLogger {
         db.child("Users").child(userId).child("Settings").child("AccountInfo").child("location").setValue(location)
     }
 
-    fun updatePasswordInDb(oldPassword: String, newPassword: String) {
-        FirebaseAuth.getInstance().currentUser?.updatePassword(newPassword)
-        //todo reauthenticate
-    }
-
+//    fun updatePasswordInDb(oldPassword: String, newPassword: String): Boolean {
+//        FirebaseAuth.getInstance().currentUser?.updatePassword(newPassword)
+//        val user = FirebaseAuth.getInstance().currentUser!!
+//        val email = user.email
+//        val credentials: AuthCredential = EmailAuthProvider.getCredential(email!!, oldPassword)
+//        var result = false
+//
+//        user.reauthenticate(credentials)?.addOnCompleteListener { task ->
+//            if (task.isSuccessful) {
+//                result = true
+//            }
+//        }
+//        return result
+//    }
 }
