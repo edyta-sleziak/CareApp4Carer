@@ -41,7 +41,11 @@
         android:id="@+id/nav_settings"
         android:name="org.wit.careapp4carer.ui.settings.SettingsFragment"
         android:label="@string/menu_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_nav_settings_to_mapFragment"
+            app:destination="@id/mapFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_notifications"
@@ -119,5 +123,13 @@
             android:name="task"
             app:argType="org.wit.careapp4carer.models.TodoModel"
             app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="org.wit.careapp4carer.ui.map.MapFragment"
+        android:label="MapFragment" >
+        <argument
+            android:name="location"
+            app:argType="org.wit.careapp4carer.models.Location" />
     </fragment>
 </navigation>

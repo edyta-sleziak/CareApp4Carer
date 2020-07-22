@@ -6,6 +6,7 @@
     <string name="nav_header_subtitle">$ accountName</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="logout">Log out</string>
 
     <string name="active_notifications">$ numberOfActiveNotifications</string>
     <string name="completed_notifications">$ numberOfCompletedNotifications</string>
@@ -50,5 +51,58 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--    Dropdown values-->
+
+    <string-array name="HrLow">
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
+        <item>60</item>
+        <item>70</item>
+        <item>80</item>
+        <item>Not set</item>
+    </string-array>
+
+    <string-array name="HrHigh">
+        <item>80</item>
+        <item>90</item>
+        <item>100</item>
+        <item>110</item>
+        <item>120</item>
+        <item>130</item>
+        <item>140</item>
+        <item>150</item>
+        <item>Not set</item>
+    </string-array>
+
+    <string-array name="Range">
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>Not set</item>
+    </string-array>
+
+    <string-array name="Steps">
+        <item>1000</item>
+        <item>3000</item>
+        <item>6000</item>
+        <item>8000</item>
+        <item>10000</item>
+        <item>Not set</item>
+    </string-array>
+
+    <string-array name="Time">
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>Not set</item>
+    </string-array>
 
 </resources>

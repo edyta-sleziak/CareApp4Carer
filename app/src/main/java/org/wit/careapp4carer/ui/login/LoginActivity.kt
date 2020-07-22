@@ -10,6 +10,8 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.toast
 import org.wit.careapp4carer.R
+import org.wit.careapp4carer.models.AccountInfoModel
+import org.wit.careapp4carer.models.Location
 import org.wit.careapp4carer.models.firebase.AccountInfoFireStore
 import org.wit.careapp4carer.ui.MainActivity
 
@@ -18,13 +20,14 @@ class LoginActivity : AppCompatActivity() {
     //var view: View? = findViewById(R.id.login)
     lateinit var context: Context
     var auth: FirebaseAuth = FirebaseAuth.getInstance()
-    var fireStore: AccountInfoFireStore? = null
+    var fireStore = AccountInfoFireStore()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         context = this
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         progressBar.visibility = View.GONE
+        //auth.signOut()
 
         login.setOnClickListener() {
             val email = email.text.toString()
@@ -59,15 +62,8 @@ class LoginActivity : AppCompatActivity() {
         showProgress()
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                if (fireStore != null) {
-                    fireStore!!.fetchData {
-                        hideProgress()
-                        startActivity(Intent(baseContext, MainActivity::class.java))
-                    }
-                } else {
-                    hideProgress()
-                    startActivity(Intent(baseContext, MainActivity::class.java))
-                }
+                hideProgress()
+                startActivity(Intent(baseContext, MainActivity::class.java))
             } else {
                 hideProgress()
                 toast("Login Failed: ${task.exception?.message}")
@@ -78,16 +74,16 @@ class LoginActivity : AppCompatActivity() {
     private fun doSignup (email: String, password: String) {
         showProgress()
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-//                fireStore!!.fetchData {
-                    hideProgress()
-                    startActivity(Intent(baseContext, MainActivity::class.java))
-                //}
+        if (task.isSuccessful) {
+            val newAccount =
+                AccountInfoModel(email, "", "", "", "Not set", "Not set", "Not set", "Not set", "Not set", Location(0.0, 0.0, 6f))
+            doLogin(email,password)
+            fireStore.add(newAccount)
+            Thread.sleep(4000)
             } else {
                 toast("Sign Up Failed: ${task.exception?.message}")
                 hideProgress()
             }
         }
     }
-
 }

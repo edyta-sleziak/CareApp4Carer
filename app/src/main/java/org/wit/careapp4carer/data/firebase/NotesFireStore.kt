@@ -27,24 +27,47 @@ class NotesFireStore() : NotesStore {
             db.child("Users").child(userId).child("Notes").child(key).setValue(note)
         }
     }
-    override fun getAll(): MutableLiveData<ArrayList<NotesModel>> {
-        fetchData()
-        return mListOfItems
-    }
+
     override fun getActiveNotes(): MutableLiveData<ArrayList<NotesModel>> {
-        fetchData()
-        listOfItems.reverse()
-        val activeNotes = listOfItems.filter { n -> n.isActive  }
-        mListOfItems.value = ArrayList(activeNotes)
+        db.child("Users").child(userId).child("Notes").orderByChild("updatedDate").addValueEventListener(object :
+            ValueEventListener {
+            override fun onCancelled(dataSnapshot: DatabaseError) {
+                Log.w("Database error" , "Retrieving data failed")
+            }
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                clear()
+                Log.d("snapshot ", "$dataSnapshot")
+                dataSnapshot.children.mapNotNullTo(listOfItems) { it.getValue<NotesModel>(
+                    NotesModel::class.java) }
+                val activeNotes = listOfItems.filter { n -> n.isActive  }
+                mListOfItems.postValue(ArrayList(activeNotes))
+            }
+        })
         return mListOfItems
     }
     override fun getRemovedNotes(): MutableLiveData<ArrayList<NotesModel>> {
-        fetchData()
-        listOfItems.reverse()
-        val completedNotes = listOfItems.filter { n -> !n.isActive  }
-        mListOfItems.value = ArrayList(completedNotes)
+        db.child("Users").child(userId).child("Notes").orderByChild("updatedDate")
+            .addValueEventListener(object :
+                ValueEventListener {
+                override fun onCancelled(dataSnapshot: DatabaseError) {
+                    Log.w("Database error", "Retrieving data failed")
+                }
+
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    clear()
+                    Log.d("snapshot ", "$dataSnapshot")
+                    dataSnapshot.children.mapNotNullTo(listOfItems) {
+                        it.getValue<NotesModel>(
+                            NotesModel::class.java
+                        )
+                    }
+                    val activeNotes = listOfItems.filter { n -> !n.isActive }
+                    mListOfItems.postValue(ArrayList(activeNotes))
+                }
+            })
         return mListOfItems
     }
+
     override fun edit(note: NotesModel){
         val noteId = note.id
         Log.d("firebase update", "$note")
@@ -62,22 +85,6 @@ class NotesFireStore() : NotesStore {
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         return current.format(formatter)
-    }
-
-    fun fetchData() {
-        db.child("Users").child(userId).child("Notes").orderByChild("updatedDate").addValueEventListener(object :
-            ValueEventListener {
-            override fun onCancelled(dataSnapshot: DatabaseError) {
-                Log.w("Database error" , "Retrieving data failed")
-            }
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                clear()
-                Log.d("snapshot ", "$dataSnapshot")
-                dataSnapshot.children.mapNotNullTo(listOfItems) { it.getValue<NotesModel>(
-                    NotesModel::class.java) }
-                Log.d("list ", "$listOfItems")
-            }
-        })
     }
 
     fun clear() {

@@ -1,5 +1,6 @@
 package org.wit.careapp4carer.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -15,6 +16,8 @@ import org.wit.careapp4carer.R
 import android.net.Uri
 import android.widget.TextView
 import com.google.firebase.auth.FirebaseAuth
+import org.wit.careapp4carer.ui.login.LoginActivity
+import org.wit.careapp4carer.ui.map.MapFragment
 import org.wit.careapp4carer.ui.notes.AddNote
 import org.wit.careapp4carer.ui.notes.NoteDetailsFragment
 import org.wit.careapp4carer.ui.notifications.AddNotificationFragment
@@ -29,7 +32,8 @@ class MainActivity : AppCompatActivity(),
         AddNote.OnFragmentInteractionListener,
         NoteDetailsFragment.OnFragmentInteractionListener,
         toDoItemEditFragment.OnFragmentInteractionListener,
-        toDoHistoryFragment.OnFragmentInteractionListener
+        toDoHistoryFragment.OnFragmentInteractionListener,
+        MapFragment.OnFragmentInteractionListener
 {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -41,6 +45,7 @@ class MainActivity : AppCompatActivity(),
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+        var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
         val navView: NavigationView = findViewById(R.id.nav_view)
         val header = navView.getHeaderView(0)
@@ -64,6 +69,15 @@ class MainActivity : AppCompatActivity(),
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+
+
+        val navigationView = findViewById<NavigationView>(R.id.nav_view)
+        navigationView.menu.findItem(R.id.logout).setOnMenuItemClickListener {
+        auth.signOut()
+            startActivity(Intent(baseContext, LoginActivity::class.java))
+            true
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

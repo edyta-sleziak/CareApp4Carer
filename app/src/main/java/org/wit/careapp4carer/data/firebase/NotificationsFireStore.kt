@@ -23,27 +23,44 @@ class NotificationsFireStore() : NotificationsStore {
     private var db = FirebaseDatabase.getInstance().reference
     private var userId = FirebaseAuth.getInstance().currentUser!!.uid
 
-    override fun getAll(): ArrayList<NotificationsModel> {
-        fetchData()
-        return listOfItems
-    }
 
     fun getCompletedNotification(): MutableLiveData<ArrayList<NotificationsModel>> {
-        fetchData()
-        val completedNotifications = listOfItems.filter { n -> n.completedTime != "Not completed" }
-        mListOfItems.value = ArrayList(completedNotifications)
+        db.child("Users").child(userId).child("Notifications").addValueEventListener(object :
+            ValueEventListener {
+            override fun onCancelled(dataSnapshot: DatabaseError) {
+                Log.w("Database error" , "Retrieving data failed")
+            }
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                clear()
+                Log.d("snapshot ", "$dataSnapshot")
+                dataSnapshot.children.mapNotNullTo(listOfItems) { it.getValue<NotificationsModel>(
+                    NotificationsModel::class.java) }
+                val completedNotifications = listOfItems.filter { n -> n.completedTime != "Not completed" }
+                mListOfItems.postValue(ArrayList(completedNotifications))
+            }
+        })
         return mListOfItems
     }
 
     fun getActiveNotification(): MutableLiveData<ArrayList<NotificationsModel>> {
-        fetchData()
-        val activeNotifications = listOfItems.filter { n -> n.completedTime == "Not completed" }
-        mListOfItems.value = ArrayList(activeNotifications)
+        db.child("Users").child(userId).child("Notifications").addValueEventListener(object :
+            ValueEventListener {
+            override fun onCancelled(dataSnapshot: DatabaseError) {
+                Log.w("Database error" , "Retrieving data failed")
+            }
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                clear()
+                Log.d("snapshot ", "$dataSnapshot")
+                dataSnapshot.children.mapNotNullTo(listOfItems) { it.getValue<NotificationsModel>(
+                    NotificationsModel::class.java) }
+                val completedNotifications = listOfItems.filter { n -> n.completedTime == "Not completed" }
+                mListOfItems.postValue(ArrayList(completedNotifications))
+            }
+        })
         return mListOfItems
     }
 
     fun getActiveNotificationCount(): Int {
-        fetchData()
         val list = listOfItems.filter { n -> n.completedTime == "Not completed" }
         activeNotificationsCount = list.size
         Log.d("filtered ACTIVE", "${list}")
@@ -53,7 +70,6 @@ class NotificationsFireStore() : NotificationsStore {
     }
 
     fun getCOmpletedNotificationCount(): Int {
-        fetchData()
         val list = listOfItems.filter { n -> n.completedTime != "Not completed" }
         completedNotificationsCountInt = list.size
         Log.d("list COMPLETED", "${list.size}")
@@ -61,23 +77,9 @@ class NotificationsFireStore() : NotificationsStore {
         return completedNotificationsCountInt
     }
 
-    fun getMutalbleLiveData(): MutableLiveData<ArrayList<NotificationsModel>> {
-        fetchData()
-        mListOfItems.value = listOfItems
-        return mListOfItems
-    }
-
-    override fun displayNotification(noteId: Long) {
+    override fun displayNotification(notificationId: String) {
 
     }
-    override fun markAsDone(noteId: Long) {
-
-    }
-    override fun displayLater(noteId: Long) {
-
-    }
-
-
 
     override fun addNewNotification(notification: NotificationsModel) {
         val key = db.child("Users").child(userId).child("Notifications").push().key
@@ -101,21 +103,5 @@ class NotificationsFireStore() : NotificationsStore {
 
     override fun removeNotification(notificationId: String) {
         db.child("Users").child(userId).child("Notifications").child(notificationId).removeValue()
-    }
-
-    fun fetchData() {
-        db.child("Users").child(userId).child("Notifications").addValueEventListener(object :
-            ValueEventListener {
-            override fun onCancelled(dataSnapshot: DatabaseError) {
-                Log.w("Database error" , "Retrieving data failed")
-            }
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                clear()
-                Log.d("snapshot ", "$dataSnapshot")
-                dataSnapshot.children.mapNotNullTo(listOfItems) { it.getValue<NotificationsModel>(
-                    NotificationsModel::class.java) }
-                Log.d("list ", "$listOfItems")
-            }
-        })
     }
 }
