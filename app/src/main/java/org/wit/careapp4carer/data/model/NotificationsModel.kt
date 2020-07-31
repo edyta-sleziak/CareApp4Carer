@@ -6,6 +6,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class NotificationsModel(
     var id: String = "",
+    var userId: String = "",
     var notification: String = "",
     var displayDate: String = "",
     var displayTime: String = "",

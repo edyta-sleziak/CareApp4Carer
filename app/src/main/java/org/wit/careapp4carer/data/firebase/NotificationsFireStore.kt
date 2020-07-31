@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.listitem_notification.view.*
 import org.wit.careapp4carer.models.NotificationsModel
 import org.wit.careapp4carer.models.NotificationsStore
 import org.wit.careapp4carer.models.TodoModel
+import java.util.Collections.addAll
 import kotlin.concurrent.timerTask
 
 class NotificationsFireStore() : NotificationsStore {
@@ -22,6 +23,7 @@ class NotificationsFireStore() : NotificationsStore {
     private var mListOfItems = MutableLiveData<ArrayList<NotificationsModel>>()
     private var db = FirebaseDatabase.getInstance().reference
     private var userId = FirebaseAuth.getInstance().currentUser!!.uid
+
 
 
     fun getCompletedNotification(): MutableLiveData<ArrayList<NotificationsModel>> {
@@ -54,6 +56,7 @@ class NotificationsFireStore() : NotificationsStore {
                 dataSnapshot.children.mapNotNullTo(listOfItems) { it.getValue<NotificationsModel>(
                     NotificationsModel::class.java) }
                 val completedNotifications = listOfItems.filter { n -> n.completedTime == "Not completed" }
+                activeNotificationsCount = completedNotifications.size
                 mListOfItems.postValue(ArrayList(completedNotifications))
             }
         })
@@ -61,12 +64,7 @@ class NotificationsFireStore() : NotificationsStore {
     }
 
     fun getActiveNotificationCount(): Int {
-        val list = listOfItems.filter { n -> n.completedTime == "Not completed" }
-        activeNotificationsCount = list.size
-        Log.d("filtered ACTIVE", "${list}")
-        Log.d("listOfItems in getActiveNotificationCount", "${listOfItems}")
-        Log.d("filtered ACTIVE size", "${list.size}")
-        return activeNotificationsCount
+        return listOf(getActiveNotification()).size
     }
 
     fun getCOmpletedNotificationCount(): Int {
@@ -85,6 +83,7 @@ class NotificationsFireStore() : NotificationsStore {
         val key = db.child("Users").child(userId).child("Notifications").push().key
         key?.let {
             notification.id = key
+            notification.userId = userId
             listOfItems.add(notification)
             db.child("Users").child(userId).child("Notifications").child(key).setValue(notification)
         }

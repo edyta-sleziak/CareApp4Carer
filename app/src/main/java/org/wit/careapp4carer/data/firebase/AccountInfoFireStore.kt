@@ -75,18 +75,4 @@ class AccountInfoFireStore() : AccountInfoStore, AnkoLogger {
         db.child("Users").child(userId).child("Settings").child("AccountInfo").child("location").setValue(location)
     }
 
-//    fun updatePasswordInDb(oldPassword: String, newPassword: String): Boolean {
-//        FirebaseAuth.getInstance().currentUser?.updatePassword(newPassword)
-//        val user = FirebaseAuth.getInstance().currentUser!!
-//        val email = user.email
-//        val credentials: AuthCredential = EmailAuthProvider.getCredential(email!!, oldPassword)
-//        var result = false
-//
-//        user.reauthenticate(credentials)?.addOnCompleteListener { task ->
-//            if (task.isSuccessful) {
-//                result = true
-//            }
-//        }
-//        return result
-//    }
 }
