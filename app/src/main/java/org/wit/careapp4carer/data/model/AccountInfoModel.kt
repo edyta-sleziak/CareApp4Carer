@@ -14,6 +14,8 @@ data class AccountInfoModel(
     var saveHomeDistance: String = "",
     var dailyStepsGoal: String = "",
     var notificationResponseTime: String = "",
+    var registrationTokenCarer: String = "",
+    var registrationTokenPatient: String = "",
     var location: Location = Location()): Parcelable
 
 @Parcelize

@@ -14,8 +14,12 @@ import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import org.wit.careapp4carer.R
 import android.net.Uri
+import android.util.Log
 import android.widget.TextView
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.iid.FirebaseInstanceId
+import org.wit.careapp4carer.models.firebase.AccountInfoFireStore
 import org.wit.careapp4carer.ui.login.LoginActivity
 import org.wit.careapp4carer.ui.map.MapFragment
 import org.wit.careapp4carer.ui.notes.AddNote
@@ -39,6 +43,8 @@ class MainActivity : AppCompatActivity(),
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     private var user = FirebaseAuth.getInstance().currentUser!!
+
+    val accountFirestore = AccountInfoFireStore()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,6 +84,19 @@ class MainActivity : AppCompatActivity(),
             startActivity(Intent(baseContext, LoginActivity::class.java))
             true
         }
+
+        FirebaseInstanceId.getInstance().instanceId
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w("Token", "getInstanceId failed", task.exception)
+                    return@OnCompleteListener
+                }
+
+                val token = task.result?.token
+                accountFirestore.addToken(token.toString())
+                Log.d("Tag token", token)
+            })
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -51,6 +51,11 @@ class AccountInfoFireStore() : AccountInfoStore, AnkoLogger {
         db.child("Users").child(userId).child("Settings").child("AccountInfo").setValue(newAccount)
     }
 
+    fun addToken(token: String) {
+        val userId = FirebaseAuth.getInstance().currentUser!!.uid
+        db.child("Users").child(userId).child("Settings").child("AccountInfo").child("registrationTokenCarer").setValue(token)
+    }
+
     fun updateAccountInDb(accountName: String, carerName: String, patientName: String) {
         //user?.updateEmail(accountName) todo reauthenticate
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
