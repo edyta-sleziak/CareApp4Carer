@@ -21,32 +21,37 @@ class LoginActivity : AppCompatActivity() {
     lateinit var context: Context
     var auth: FirebaseAuth = FirebaseAuth.getInstance()
     var fireStore = AccountInfoFireStore()
+    var accountFirebase = AccountInfoFireStore()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        context = this
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-        progressBar.visibility = View.GONE
-        //auth.signOut()
+        if (accountFirebase.getUser() != null) {
+            startActivity(Intent(baseContext, MainActivity::class.java))
+        } else {
+            context = this
+            super.onCreate(savedInstanceState)
+            setContentView(R.layout.activity_login)
+            progressBar.visibility = View.GONE
+            //auth.signOut()
 
-        login.setOnClickListener() {
-            val email = email.text.toString()
-            val password = password.text.toString()
+            login.setOnClickListener() {
+                val email = email.text.toString()
+                val password = password.text.toString()
 
-            if (email.isEmpty() && password.isEmpty()) {
-                toast(R.string.enter_credentials)
-            } else {
-                doLogin(email, password)
+                if (email.isEmpty() && password.isEmpty()) {
+                    toast(R.string.enter_credentials)
+                } else {
+                    doLogin(email, password)
+                }
             }
-        }
-        signup.setOnClickListener() {
-            val email = email.text.toString()
-            val password = password.text.toString()
+            signup.setOnClickListener() {
+                val email = email.text.toString()
+                val password = password.text.toString()
 
-            if (email.isEmpty() || password.isEmpty()) {
-                toast(R.string.enter_credentials)
-            } else {
-                doSignup(email, password)
+                if (email.isEmpty() || password.isEmpty()) {
+                    toast(R.string.enter_credentials)
+                } else {
+                    doSignup(email, password)
+                }
             }
         }
     }

@@ -101,9 +101,9 @@
                 android:textSize="20sp"
                 android:layout_marginBottom="15dp"/>
 
-            <com.google.android.gms.maps.MapView
-                android:id="@+id/mapView"
+            <include layout="@layout/fragment_map"
                 android:layout_width="match_parent"
                 android:layout_height="369dp" />
+
         </LinearLayout>
     </ScrollView>
