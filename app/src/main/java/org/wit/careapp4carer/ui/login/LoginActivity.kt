@@ -24,6 +24,7 @@ class LoginActivity : AppCompatActivity() {
     var accountFirebase = AccountInfoFireStore()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         if (accountFirebase.getUser() != null) {
             startActivity(Intent(baseContext, MainActivity::class.java))
         } else {

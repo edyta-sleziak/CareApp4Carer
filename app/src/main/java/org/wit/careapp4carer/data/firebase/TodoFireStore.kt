@@ -13,6 +13,7 @@ import org.wit.careapp4carer.models.TodoStore
 class TodoFireStore() : TodoStore {
     private var todoItems = ArrayList<TodoModel>()
     private var todoItemsMut = MutableLiveData<ArrayList<TodoModel>>()
+    var count = MutableLiveData<Int>()
     private var db = FirebaseDatabase.getInstance().reference
     private var userId = FirebaseAuth.getInstance().currentUser!!.uid
 
@@ -40,6 +41,7 @@ class TodoFireStore() : TodoStore {
                     dataSnapshot.children.mapNotNullTo(todoItems) { it.getValue<TodoModel>(TodoModel::class.java) }
                     val activeItems = todoItems.filter { n -> !n.isCompleted  }
                     todoItemsMut.postValue(ArrayList(activeItems))
+                    count.postValue(activeItems.size)
                 }
             })
         return todoItemsMut
@@ -76,6 +78,11 @@ class TodoFireStore() : TodoStore {
 
     override fun clear() {
         todoItems.clear()
+    }
+
+    fun getNumberOfToDoItems(): MutableLiveData<Int> {
+        getActiveOnly()
+        return count
     }
 
 

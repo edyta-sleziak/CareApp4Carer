@@ -16,6 +16,7 @@ class NotesFireStore() : NotesStore {
 
     private var listOfItems = ArrayList<NotesModel>()
     private var mListOfItems = MutableLiveData<ArrayList<NotesModel>>()
+    var count = MutableLiveData<Int>()
     private var db = FirebaseDatabase.getInstance().reference
     private var userId = FirebaseAuth.getInstance().currentUser!!.uid
 
@@ -41,10 +42,18 @@ class NotesFireStore() : NotesStore {
                     NotesModel::class.java) }
                 val activeNotes = listOfItems.filter { n -> n.isActive  }
                 mListOfItems.postValue(ArrayList(activeNotes))
+                count.postValue(activeNotes.size)
             }
         })
         return mListOfItems
     }
+
+    fun getNumberOfNotes(): MutableLiveData<Int> {
+        getActiveNotes()
+        return count
+    }
+
+
     override fun getRemovedNotes(): MutableLiveData<ArrayList<NotesModel>> {
         db.child("Users").child(userId).child("Notes").orderByChild("updatedDate")
             .addValueEventListener(object :

@@ -61,7 +61,6 @@ class AccountInfoFireStore() : AccountInfoStore, AnkoLogger {
     }
 
     fun updateAccountInDb(accountName: String, carerName: String, patientName: String) {
-        //user?.updateEmail(accountName) todo reauthenticate
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
 
         db.child("Users").child(userId).child("Settings").child("AccountInfo").child("email").setValue(accountName)
