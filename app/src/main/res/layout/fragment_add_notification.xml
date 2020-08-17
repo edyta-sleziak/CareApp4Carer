@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,7 +18,8 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
             android:autofillHints="Notification content"
-            android:text="New notification"
+            android:background="@drawable/rounded_edittext"
+            android:hint="New notification"
             android:ems="10"
             android:gravity="start|top"
             android:inputType="textMultiLine"
@@ -35,6 +37,8 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
             android:autofillHints="Date"
+            android:hint="Select date"
+            android:background="@drawable/rounded_edittext"
             android:ems="10"
             android:inputType="none"
             android:focusable="false"
@@ -51,6 +55,8 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:autofillHints="Time"
+            android:hint="Select time"
+            android:background="@drawable/rounded_edittext"
             android:focusable="false"
             android:ems="10"
             android:inputType="none"

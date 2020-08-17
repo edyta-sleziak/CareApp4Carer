@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent">
 
     <Button
         android:id="@+id/button_active_notifications"
@@ -45,7 +46,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="XX Shared notes"
         android:background="@drawable/rounded_button"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="16sp"
@@ -62,7 +62,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="XX active to-do items"
         android:background="@drawable/rounded_button"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="16sp"
@@ -85,8 +84,7 @@
         app:layout_constraintEnd_toStartOf="@+id/button_hr"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_shared_notes"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:text="Current location is XX" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <Button
         android:id="@+id/button_hr"
@@ -102,6 +100,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button_current_location"
         app:layout_constraintTop_toBottomOf="@+id/button_active_todo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:text="Latest HR reading is XX" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

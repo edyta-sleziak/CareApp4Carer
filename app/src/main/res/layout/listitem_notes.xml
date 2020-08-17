@@ -18,7 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:textSize="30sp"
+            android:textSize="16sp"
+            android:textStyle="bold"
             android:text="@string/note_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +32,7 @@
             android:layout_margin="8dp"
             android:inputType="none"
             android:text="Updated on"
-            app:layout_constraintStart_toStartOf="@id/note_title"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/note_title" />
 
         <TextView

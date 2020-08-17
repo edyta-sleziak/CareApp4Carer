@@ -26,19 +26,8 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.math.min
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [AddNotificationFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [AddNotificationFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+
 class AddNotificationFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -105,7 +94,7 @@ class AddNotificationFragment : Fragment() {
                     val notification = notification_text.text.toString()
                     val displayDate = notification_date.text.toString()
                     val displayTime = notification_time.text.toString()
-                    if (notification == "" || displayDate == "" || displayTime == "") {
+                    if (notification == "" || displayDate == "Select date" || displayTime == "Select time") {
                         val text = "Please fill all fields!"
                         val duration = Toast.LENGTH_LONG
                         val toast = Toast.makeText(requireContext(), text, duration)
@@ -154,8 +143,4 @@ class AddNotificationFragment : Fragment() {
         fun onFragmentInteraction(uri: Uri)
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance() = AddNotificationFragment()
-    }
 }

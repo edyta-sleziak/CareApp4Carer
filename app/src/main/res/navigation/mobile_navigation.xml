@@ -83,8 +83,8 @@
     <fragment
         android:id="@+id/AddNoteFragment"
         android:name="org.wit.careapp4carer.ui.notes.AddNote"
-        android:label="fragment_add_note"
-        tools:layout="@layout/fragment_add_note" >
+        android:label="Shared Note"
+        tools:layout="@layout/fragment_add_note">
         <argument
             android:name="note"
             app:argType="org.wit.careapp4carer.models.NotesModel"
@@ -93,8 +93,8 @@
     <fragment
         android:id="@+id/noteDetailsFragment"
         android:name="org.wit.careapp4carer.ui.notes.NoteDetailsFragment"
-        android:label="fragment_note_details"
-        tools:layout="@layout/fragment_note_details" >
+        android:label="Removed Notes"
+        tools:layout="@layout/fragment_note_details">
         <argument
             android:name="note"
             app:argType="org.wit.careapp4carer.models.NotesModel"
@@ -103,8 +103,8 @@
     <fragment
         android:id="@+id/notesHistoryFragment"
         android:name="org.wit.careapp4carer.ui.notes.history.NotesHistoryFragment"
-        android:label="fragment_notes_history"
-        tools:layout="@layout/fragment_notes_history" >
+        android:label="Shared Notes History"
+        tools:layout="@layout/fragment_notes_history">
         <action
             android:id="@+id/action_notesHistoryFragment_to_noteDetailsFragment"
             app:destination="@id/noteDetailsFragment" />
@@ -112,13 +112,13 @@
     <fragment
         android:id="@+id/toDoHistoryFragment"
         android:name="org.wit.careapp4carer.ui.todo.history.toDoHistoryFragment"
-        android:label="fragment_to_do_history"
+        android:label="To-do items history"
         tools:layout="@layout/fragment_to_do_history" />
     <fragment
         android:id="@+id/ToDoItemEditFragment"
         android:name="org.wit.careapp4carer.ui.todo.toDoItemEditFragment"
-        android:label="fragment_to_do_item_edit"
-        tools:layout="@layout/fragment_to_do_item_edit" >
+        android:label="Edit To-do Item"
+        tools:layout="@layout/fragment_to_do_item_edit">
         <argument
             android:name="task"
             app:argType="org.wit.careapp4carer.models.TodoModel"

@@ -65,11 +65,10 @@ class HomeFragment : Fragment() {
                 val homeLocation = ""
                 val epName = "Patient" //todo get name
                 if (locationText == homeLocation) {
-                    locationButton.setText(epName + " is HOME")
-                    locationButton.setBackgroundColor(Color.GREEN)
+                    locationButton.setText(epName + "'s\nlocation is\nHOME")
                 } else {
-                    locationButton.setText(epName + " is NOT HOME")
-                    locationButton.setBackgroundColor(Color.RED)
+                    locationButton.setText(epName + "'s\nlocation is\nNOT HOME")
+                    locationButton.setTextColor(Color.RED)
                 }
             })
 
@@ -81,11 +80,10 @@ class HomeFragment : Fragment() {
                 val upperLimit = 100
                 val lowerLimit = 55
                 if (latestHr in lowerLimit..upperLimit) {
-                    locationButton.setText("Latest HR is in safe range ( $latestHr bpm)")
-                    locationButton.setBackgroundColor(Color.GREEN)
+                    locationButton.setText("Latest HR is \nin safe range \n($latestHr bpm)")
                 } else {
-                    locationButton.setText("Latest HR is NOT in safe range ( $latestHr bpm)")
-                    locationButton.setBackgroundColor(Color.RED)
+                    locationButton.setText("Latest HR is \nNOT in safe range \n($latestHr bpm)")
+                    locationButton.setTextColor(Color.RED)
                 }
             })
 

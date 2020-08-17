@@ -19,6 +19,7 @@ import android.widget.TextView
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.iid.FirebaseInstanceId
+import kotlinx.android.synthetic.main.content_main.*
 import org.wit.careapp4carer.models.firebase.AccountInfoFireStore
 import org.wit.careapp4carer.ui.login.LoginActivity
 import org.wit.careapp4carer.ui.map.MapFragment
@@ -51,6 +52,8 @@ class MainActivity : AppCompatActivity(),
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+        toolbar.title = nav_host_fragment.tag
+        
         var auth: FirebaseAuth = FirebaseAuth.getInstance()
 
         val navView: NavigationView = findViewById(R.id.nav_view)
@@ -59,7 +62,7 @@ class MainActivity : AppCompatActivity(),
         accountName.setText(user.email)
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        //val navView: NavigationView = findViewById(R.id.nav_view)
+
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.

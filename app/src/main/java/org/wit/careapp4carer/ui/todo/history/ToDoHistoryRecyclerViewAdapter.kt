@@ -41,7 +41,7 @@ class ToDoHistoryRecyclerViewAdapter(var todoList: List<TodoModel>
     }
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
-        val mToDoListItem = todoList!!.get(position)
+        val mToDoListItem = todoList.get(position)
 
         if(mToDoListItem.task != null) {
             holder.task.setText(mToDoListItem.task)
@@ -52,7 +52,7 @@ class ToDoHistoryRecyclerViewAdapter(var todoList: List<TodoModel>
         }
     }
 
-    override fun getItemCount(): Int = todoList!!.size
+    override fun getItemCount(): Int = todoList.size
 
     class MainHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val task: TextView = itemView.findViewById(R.id.todoItemName)

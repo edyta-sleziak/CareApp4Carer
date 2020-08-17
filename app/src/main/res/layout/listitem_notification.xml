@@ -6,8 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    android:elevation="24dp">
+    android:elevation="24dp"
+    android:layout_marginBottom="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -20,45 +20,65 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
-            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/notificationDisplayDate"
-            android:layout_width="118dp"
-            android:layout_height="39dp"
+            android:id="@+id/hint_DisplayDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
             android:inputType="none"
             android:text="@string/hint_display_date"
-            app:layout_constraintEnd_toStartOf="@+id/notificationCompletedDate"
-            app:layout_constraintStart_toStartOf="@+id/notificationName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/notificationName" />
+
+        <TextView
+            android:id="@+id/notificationDisplayDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="24dp"
+            android:inputType="none"
+            app:layout_constraintStart_toEndOf="@+id/hint_DisplayDate"
             app:layout_constraintTop_toBottomOf="@+id/notificationName" />
 
         <TextView
             android:id="@+id/notificationDisplayTime"
-            android:layout_width="118dp"
-            android:layout_height="39dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginStart="24dp"
             android:inputType="none"
-            android:text="@string/hint_display_time"
-            app:layout_constraintEnd_toStartOf="@+id/notificationCompletedDate"
-            app:layout_constraintStart_toStartOf="@+id/notificationName"
-            app:layout_constraintTop_toBottomOf="@+id/notificationDisplayDate" />
+            app:layout_constraintStart_toEndOf="@+id/notificationCompletedDate"
+            app:layout_constraintTop_toBottomOf="@+id/notificationName" />
 
         <TextView
-            android:id="@+id/notificationCompletedDate"
-            android:layout_width="120dp"
-            android:layout_height="49dp"
+            android:id="@+id/hint_CompletedDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
             android:text="@string/hint_completed_date"
-            app:layout_constraintStart_toEndOf="@+id/notificationDisplayDate"
-            app:layout_constraintTop_toBottomOf="@+id/notificationName" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hint_DisplayDate" />
+
+        <TextView
+            android:id="@+id/notificationCompletedDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintStart_toEndOf="@id/hint_CompletedDate"
+            app:layout_constraintTop_toBottomOf="@+id/hint_DisplayDate" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

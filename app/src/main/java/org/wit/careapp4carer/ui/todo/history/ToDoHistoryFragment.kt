@@ -1,12 +1,12 @@
 package org.wit.careapp4carer.ui.todo.history
 
-import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,18 +15,9 @@ import org.wit.careapp4carer.R
 import org.wit.careapp4carer.ui.todo.ToDoViewModel
 
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [toDoHistoryFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [toDoHistoryFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class toDoHistoryFragment : Fragment() {
     private lateinit var toDoViewModel: ToDoViewModel
     private lateinit var mRecycleView: RecyclerView
-    private lateinit var mRecyclerViewAdapter: ToDoHistoryRecyclerViewAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,58 +45,9 @@ class toDoHistoryFragment : Fragment() {
         return view
     }
 
-//    // TODO: Rename method, update argument and hook method into UI event
-//    fun onButtonPressed(uri: Uri) {
-//        listener?.onFragmentInteraction(uri)
-//    }
-//
-//    override fun onAttach(context: Context) {
-//        super.onAttach(context)
-//        if (context is OnFragmentInteractionListener) {
-//            listener = context
-//        } else {
-//            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
-//        }
-//    }
-//
-//    override fun onDetach() {
-//        super.onDetach()
-//        listener = null
-//    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments]
-     * (http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
-     */
     interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         fun onFragmentInteraction(uri: Uri)
     }
 
-//    companion object {
-//        /**
-//         * Use this factory method to create a new instance of
-//         * this fragment using the provided parameters.
-//         *
-//         * @param param1 Parameter 1.
-//         * @param param2 Parameter 2.
-//         * @return A new instance of fragment toDoHistoryFragment.
-//         */
-//        // TODO: Rename and change types and number of parameters
-//        @JvmStatic
-//        fun newInstance(param1: String, param2: String) =
-//            toDoHistoryFragment().apply {
-//                arguments = Bundle().apply {
-//                    putString(ARG_PARAM1, param1)
-//                    putString(ARG_PARAM2, param2)
-//                }
-//            }
-//    }
 }

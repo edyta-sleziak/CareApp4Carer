@@ -29,10 +29,8 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(baseContext, MainActivity::class.java))
         } else {
             context = this
-            super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_login)
             progressBar.visibility = View.GONE
-            //auth.signOut()
 
             login.setOnClickListener() {
                 val email = email.text.toString()
