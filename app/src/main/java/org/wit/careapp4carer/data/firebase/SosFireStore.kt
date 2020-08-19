@@ -25,7 +25,7 @@ class SosFireStore() : SosStore {
     private var userId = FirebaseAuth.getInstance().currentUser!!.uid
 
     override fun getData(id: String): MutableLiveData<SosModel> {
-        db.child("Users").child(userId).child("SOS").addValueEventListener(object :
+        db.child("Users").child(userId).child("SOS").orderByChild("dateTime").addValueEventListener(object :
             ValueEventListener {
             override fun onCancelled(dataSnapshot: DatabaseError) {
                 Log.w("Database error" , "Retrieving data failed")
@@ -35,6 +35,7 @@ class SosFireStore() : SosStore {
                 Log.d("snapshot ", "$dataSnapshot")
                 dataSnapshot.children.mapNotNullTo(listOfItems) { it.getValue<SosModel>(
                     SosModel::class.java) }
+                listOfItems.reverse()
                 val selectedAlert = listOfItems.filter { n -> n.id == id }
                 mListOfItems.postValue(selectedAlert[0])
             }

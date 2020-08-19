@@ -40,6 +40,7 @@ class NotesFireStore() : NotesStore {
                 Log.d("snapshot ", "$dataSnapshot")
                 dataSnapshot.children.mapNotNullTo(listOfItems) { it.getValue<NotesModel>(
                     NotesModel::class.java) }
+                listOfItems.reverse()
                 val activeNotes = listOfItems.filter { n -> n.isActive  }
                 mListOfItems.postValue(ArrayList(activeNotes))
                 count.postValue(activeNotes.size)
@@ -70,6 +71,7 @@ class NotesFireStore() : NotesStore {
                             NotesModel::class.java
                         )
                     }
+                    listOfItems.reverse()
                     val activeNotes = listOfItems.filter { n -> !n.isActive }
                     mListOfItems.postValue(ArrayList(activeNotes))
                 }

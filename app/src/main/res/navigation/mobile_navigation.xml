@@ -9,7 +9,11 @@
         android:id="@+id/nav_home"
         android:name="org.wit.careapp4carer.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_mapFragment"
+            app:destination="@id/mapFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_todo"
@@ -78,7 +82,7 @@
     <fragment
         android:id="@+id/notificationHistoryFragment"
         android:name="org.wit.careapp4carer.ui.notifications.history.NotificationHistoryFragment"
-        android:label="Notifications History"
+        android:label="Completed Notifications"
         tools:layout="@layout/fragment_notification_history" />
     <fragment
         android:id="@+id/AddNoteFragment"
@@ -127,7 +131,7 @@
     <fragment
         android:id="@+id/mapFragment"
         android:name="org.wit.careapp4carer.ui.map.MapFragment"
-        android:label="MapFragment" >
+        android:label="Map">
         <argument
             android:name="location"
             app:argType="org.wit.careapp4carer.models.Location" />

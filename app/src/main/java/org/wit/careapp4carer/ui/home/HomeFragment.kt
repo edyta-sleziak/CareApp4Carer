@@ -2,6 +2,7 @@ package org.wit.careapp4carer.ui.home
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +12,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.notification_list.view.*
 import org.wit.careapp4carer.R
+import org.wit.careapp4carer.models.AccountInfoModel
+import org.wit.careapp4carer.models.Location
 import org.wit.careapp4carer.models.firebase.NotesFireStore
 import org.wit.careapp4carer.models.firebase.NotificationsFireStore
 import org.wit.careapp4carer.models.firebase.TodoFireStore
@@ -21,8 +25,9 @@ import org.wit.careapp4carer.models.firebase.TodoFireStore
 class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
+    private var accountData = AccountInfoModel()
 
-    override fun onCreateView(
+        override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,6 +37,11 @@ class HomeFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
         val viewModel = HomeViewModel()
+
+        viewModel.getAccountData()
+            .observe(viewLifecycleOwner, Observer { data ->
+                accountData = data
+            })
 
         viewModel.getActiveNotificationCount()
             .observe(viewLifecycleOwner, Observer { data ->
@@ -61,13 +71,15 @@ class HomeFragment : Fragment() {
             .observe(viewLifecycleOwner, Observer { data ->
                 val locationButton: TextView = view.findViewById(R.id.button_current_location)
                 //todo compare latest location with home location
-                val locationText = ""
-                val homeLocation = ""
-                val epName = "Patient" //todo get name
-                if (locationText == homeLocation) {
-                    locationButton.setText(epName + "'s\nlocation is\nHOME")
+                val latestLocation = viewModel.getLatestLocation()
+                val homeLocation = Location(accountData.location.lat, accountData.location.lng, accountData.location.zoom)
+
+                if ("%.3f".format(latestLocation.value!!.latitude).toDouble() == ("%.3f".format(homeLocation.lat).toDouble()) &&
+                            "%.3f".format(latestLocation.value!!.longitude).toDouble() == "%.3f".format(homeLocation.lng).toDouble())
+                {
+                    locationButton.setText(accountData.epName + "'s\nlocation is\nHOME")
                 } else {
-                    locationButton.setText(epName + "'s\nlocation is\nNOT HOME")
+                    locationButton.setText(accountData.epName + "'s\nlocation is\nNOT HOME")
                     locationButton.setTextColor(Color.RED)
                 }
             })
@@ -75,10 +87,9 @@ class HomeFragment : Fragment() {
         viewModel.getLatestHrReading()
             .observe(viewLifecycleOwner, Observer { data ->
                 val locationButton: TextView = view.findViewById(R.id.button_hr)
-                //todo compare latest hr with expected
                 val latestHr = data.hrValue
-                val upperLimit = 100
-                val lowerLimit = 55
+                val upperLimit = accountData.saveHrRangeHigh.toInt()
+                val lowerLimit = accountData.saveHrRangeLow.toInt()
                 if (latestHr in lowerLimit..upperLimit) {
                     locationButton.setText("Latest HR is \nin safe range \n($latestHr bpm)")
                 } else {
@@ -106,11 +117,14 @@ class HomeFragment : Fragment() {
         }
 
         view.button_current_location.setOnClickListener {
-            //todo add new view with location history - click to see map
+            val latestLocation = viewModel.getLatestLocation()
+            val location = Location(latestLocation.value!!.latitude, latestLocation.value!!.longitude, latestLocation.value!!.zoom)
+            val action : HomeFragmentDirections.ActionNavHomeToMapFragment = HomeFragmentDirections.actionNavHomeToMapFragment(location)
+            it.findNavController().navigate(action)
         }
 
         view.button_hr.setOnClickListener {
-            //todo add hr history view
+            view.findNavController().navigate(R.id.nav_reports)
         }
 
         return view

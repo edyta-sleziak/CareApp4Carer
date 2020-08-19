@@ -80,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
         if (task.isSuccessful) {
             val newAccount =
-                AccountInfoModel(email, "", "", "", "Not set", "Not set", "Not set", "Not set", "Not set", "","", Location(0.0, 0.0, 6f))
+                AccountInfoModel(email, "Carer", "Patient", "112", "130", "70", "Not set", "Not set", "Not set", "","", Location(0.0, 0.0, 6f))
             doLogin(email,password)
             fireStore.add(newAccount)
             Thread.sleep(4000)

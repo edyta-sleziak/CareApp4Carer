@@ -60,7 +60,6 @@
         <item>60</item>
         <item>70</item>
         <item>80</item>
-        <item>Not set</item>
     </string-array>
 
     <string-array name="HrHigh">
@@ -72,7 +71,6 @@
         <item>130</item>
         <item>140</item>
         <item>150</item>
-        <item>Not set</item>
     </string-array>
 
     <string-array name="Range">
