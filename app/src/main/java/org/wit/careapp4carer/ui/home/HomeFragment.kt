@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.notification_list.view.*
 import org.wit.careapp4carer.R
 import org.wit.careapp4carer.models.AccountInfoModel
 import org.wit.careapp4carer.models.Location
+import org.wit.careapp4carer.models.LocationModel
 import org.wit.careapp4carer.models.firebase.NotesFireStore
 import org.wit.careapp4carer.models.firebase.NotificationsFireStore
 import org.wit.careapp4carer.models.firebase.TodoFireStore
@@ -26,6 +27,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
     private var accountData = AccountInfoModel()
+    var name = "Patient"
 
         override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,6 +43,7 @@ class HomeFragment : Fragment() {
         viewModel.getAccountData()
             .observe(viewLifecycleOwner, Observer { data ->
                 accountData = data
+                name = accountData.epName
             })
 
         viewModel.getActiveNotificationCount()
@@ -69,18 +72,27 @@ class HomeFragment : Fragment() {
 
         viewModel.getLatestLocation()
             .observe(viewLifecycleOwner, Observer { data ->
+
                 val locationButton: TextView = view.findViewById(R.id.button_current_location)
-                //todo compare latest location with home location
                 val latestLocation = viewModel.getLatestLocation()
                 val homeLocation = Location(accountData.location.lat, accountData.location.lng, accountData.location.zoom)
-
-                if ("%.3f".format(latestLocation.value!!.latitude).toDouble() == ("%.3f".format(homeLocation.lat).toDouble()) &&
-                            "%.3f".format(latestLocation.value!!.longitude).toDouble() == "%.3f".format(homeLocation.lng).toDouble())
-                {
-                    locationButton.setText(accountData.epName + "'s\nlocation is\nHOME")
+                if (latestLocation.value == LocationModel(0.0,0.0,5f,"")) {
+                    locationButton.setText("Location history\nis empty")
+                    locationButton.setTextColor(Color.parseColor("#6d6875"))
                 } else {
-                    locationButton.setText(accountData.epName + "'s\nlocation is\nNOT HOME")
-                    locationButton.setTextColor(Color.RED)
+                    if ("%.3f".format(latestLocation.value!!.latitude).toDouble() == ("%.3f".format(
+                            homeLocation.lat
+                        ).toDouble()) &&
+                        "%.3f".format(latestLocation.value!!.longitude).toDouble() == "%.3f".format(
+                            homeLocation.lng
+                        ).toDouble()
+                    ) {
+                        locationButton.setText(name + "'s\nlocation is\nHOME")
+                        locationButton.setTextColor(Color.parseColor("#6d6875"))
+                    } else {
+                        locationButton.setText(name + "'s\nlocation is\nNOT HOME")
+                        locationButton.setTextColor(Color.RED)
+                    }
                 }
             })
 
@@ -90,11 +102,17 @@ class HomeFragment : Fragment() {
                 val latestHr = data.hrValue
                 val upperLimit = accountData.saveHrRangeHigh.toInt()
                 val lowerLimit = accountData.saveHrRangeLow.toInt()
-                if (latestHr in lowerLimit..upperLimit) {
-                    locationButton.setText("Latest HR is \nin safe range \n($latestHr bpm)")
+                if (latestHr == 0){
+                    locationButton.setText("No heart rate\ndata recorded")
+                    locationButton.setTextColor(Color.parseColor("#6d6875"))
                 } else {
-                    locationButton.setText("Latest HR is \nNOT in safe range \n($latestHr bpm)")
-                    locationButton.setTextColor(Color.RED)
+                    if (latestHr in lowerLimit..upperLimit) {
+                        locationButton.setText("Latest HR is \nin safe range \n($latestHr bpm)")
+                        locationButton.setTextColor(Color.parseColor("#6d6875"))
+                    } else {
+                        locationButton.setText("Latest HR is \nNOT in safe range \n($latestHr bpm)")
+                        locationButton.setTextColor(Color.RED)
+                    }
                 }
             })
 

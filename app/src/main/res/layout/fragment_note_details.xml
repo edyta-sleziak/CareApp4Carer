@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:inputType="none"
-            android:text="Last update was done by "
+            android:text="Last update was done on "
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/note_content" />
 

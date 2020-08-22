@@ -17,7 +17,6 @@ import org.wit.careapp4carer.ui.MainActivity
 
 class LoginActivity : AppCompatActivity() {
 
-    //var view: View? = findViewById(R.id.login)
     lateinit var context: Context
     var auth: FirebaseAuth = FirebaseAuth.getInstance()
     var fireStore = AccountInfoFireStore()

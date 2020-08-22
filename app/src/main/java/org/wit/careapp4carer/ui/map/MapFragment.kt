@@ -58,7 +58,6 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerDragListen
         map = googleMap
         val loc = LatLng(location.lat, location.lng)
         val options = MarkerOptions()
-            .title("Home")
             .snippet("GPS : " + loc.toString())
             .draggable(true)
             .position(loc)

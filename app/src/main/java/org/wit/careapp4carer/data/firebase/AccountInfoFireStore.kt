@@ -14,9 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.toast
-import org.wit.careapp4carer.models.AccountInfoModel
-import org.wit.careapp4carer.models.AccountInfoStore
-import org.wit.careapp4carer.models.Location
+import org.wit.careapp4carer.models.*
 import kotlin.concurrent.thread
 
 class AccountInfoFireStore() : AccountInfoStore, AnkoLogger {
@@ -49,6 +47,12 @@ class AccountInfoFireStore() : AccountInfoStore, AnkoLogger {
     fun add(newAccount: AccountInfoModel) {
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
         db.child("Users").child(userId).child("Settings").child("AccountInfo").setValue(newAccount)
+        db.child("Users").child(userId).child("LatestActivity").child("LatestHr").child("data").setValue(
+            HrModel(0,"")
+        )
+        db.child("Users").child(userId).child("LatestActivity").child("LatestLocation").child("data").setValue(
+            LocationModel(0.0,0.0,5f,"")
+        )
     }
 
     fun addToken(token: String) {
