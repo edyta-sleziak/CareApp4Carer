@@ -22,7 +22,7 @@ class HrFireStore() : HrStore, AnkoLogger {
 
     override fun getHrHistory() : MutableLiveData<ArrayList<HrModel>> {
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
-        db.child("Users").child(userId).child("HrHistory").addValueEventListener(object :
+        db.child("Users").child(userId).child("HrHistory").orderByChild("dateTime").addValueEventListener(object :
             ValueEventListener {
             override fun onCancelled(dataSnapshot: DatabaseError) {
                 Log.w("Database error" , "Retrieving data failed")
@@ -31,6 +31,7 @@ class HrFireStore() : HrStore, AnkoLogger {
                 hrRecords.clear()
                 dataSnapshot.children.mapNotNullTo(hrRecords) { it.getValue<HrModel>(
                     HrModel::class.java) }
+                hrRecords.reverse()
                 hrRecordsMut.postValue(hrRecords)
             }
         })
