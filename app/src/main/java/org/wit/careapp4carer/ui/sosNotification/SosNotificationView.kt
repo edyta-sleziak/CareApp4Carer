@@ -13,7 +13,6 @@ import kotlinx.android.synthetic.main.activity_sos_notification.*
 import org.jetbrains.anko.intentFor
 import org.wit.careapp4carer.R
 import org.wit.careapp4carer.models.HrModel
-import org.wit.careapp4carer.models.Location
 import org.wit.careapp4carer.models.LocationModel
 import org.wit.careapp4carer.models.firebase.AccountInfoFireStore
 import org.wit.careapp4carer.models.firebase.SosFireStore

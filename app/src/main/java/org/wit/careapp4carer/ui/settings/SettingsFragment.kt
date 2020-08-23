@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 import org.wit.careapp4carer.R
-import org.wit.careapp4carer.models.Location
+import org.wit.careapp4carer.models.LocationModel
 import org.wit.careapp4carer.ui.notifications.NotificationsFragmentDirections
 
 class SettingsFragment : Fragment() {
@@ -86,8 +86,8 @@ class SettingsFragment : Fragment() {
 
         val data = viewModel.getDataFromDb()
             .observe(viewLifecycleOwner, Observer { accountData ->
-                locationLat = accountData.location.lat
-                locationLng = accountData.location.lng
+                locationLat = accountData.location.latitude
+                locationLng = accountData.location.longitude
                 locationZoom = accountData.location.zoom
                 view.account_name.setText(accountData.email)
                 view.carer_name.setText(accountData.carerName)
@@ -98,7 +98,7 @@ class SettingsFragment : Fragment() {
                 view.home_distance.setSelection(adapterRange.getPosition(accountData.saveHomeDistance))
                 view.steps_goal.setSelection(adapterSteps.getPosition(accountData.dailyStepsGoal))
                 view.response_time.setSelection(adapterTime.getPosition(accountData.notificationResponseTime))
-                view.home_location.setText("Lat.: "+accountData.location.lat.toString()+"\n Long.: "+accountData.location.lng.toString() )
+                view.home_location.setText("Lat.: "+accountData.location.latitude.toString()+"\n Long.: "+accountData.location.longitude.toString() )
             })
 
         view.button_update_account_details.setOnClickListener {
@@ -161,7 +161,7 @@ class SettingsFragment : Fragment() {
         }
 
         view.home_location.setOnClickListener {
-            val location= Location(locationLat,locationLng,locationZoom)
+            val location= LocationModel(locationLat,locationLng,locationZoom)
             val action : SettingsFragmentDirections.ActionNavSettingsToMapFragment = SettingsFragmentDirections.actionNavSettingsToMapFragment(location)
             it.findNavController().navigate(action)
         }

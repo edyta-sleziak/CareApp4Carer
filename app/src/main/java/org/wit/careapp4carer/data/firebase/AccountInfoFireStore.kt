@@ -82,7 +82,7 @@ class AccountInfoFireStore() : AccountInfoStore, AnkoLogger {
         db.child("Users").child(userId).child("Settings").child("AccountInfo").child("notificationResponseTime").setValue(notificationResponseTime)
     }
 
-    fun saveHomeLocation(location: Location) {
+    fun saveHomeLocation(location: LocationModel) {
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
         db.child("Users").child(userId).child("Settings").child("AccountInfo").child("location").setValue(location)
     }

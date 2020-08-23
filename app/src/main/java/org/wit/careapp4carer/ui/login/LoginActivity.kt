@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.toast
 import org.wit.careapp4carer.R
 import org.wit.careapp4carer.models.AccountInfoModel
-import org.wit.careapp4carer.models.Location
+import org.wit.careapp4carer.models.LocationModel
 import org.wit.careapp4carer.models.firebase.AccountInfoFireStore
 import org.wit.careapp4carer.ui.MainActivity
 
@@ -79,7 +79,7 @@ class LoginActivity : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
         if (task.isSuccessful) {
             val newAccount =
-                AccountInfoModel(email, "Carer", "Patient", "112", "130", "70", "Not set", "Not set", "Not set", "","", Location(0.0, 0.0, 6f))
+                AccountInfoModel(email, "Carer", "Patient", "112", "130", "70", "Not set", "Not set", "Not set", "","", LocationModel(0.0, 0.0, 6f,""))
             doLogin(email,password)
             fireStore.add(newAccount)
             Thread.sleep(4000)

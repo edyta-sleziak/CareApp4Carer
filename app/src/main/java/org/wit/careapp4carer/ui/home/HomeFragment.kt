@@ -17,7 +17,6 @@ import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.notification_list.view.*
 import org.wit.careapp4carer.R
 import org.wit.careapp4carer.models.AccountInfoModel
-import org.wit.careapp4carer.models.Location
 import org.wit.careapp4carer.models.LocationModel
 import org.wit.careapp4carer.models.firebase.NotesFireStore
 import org.wit.careapp4carer.models.firebase.NotificationsFireStore
@@ -75,16 +74,16 @@ class HomeFragment : Fragment() {
 
                 val locationButton: TextView = view.findViewById(R.id.button_current_location)
                 val latestLocation = viewModel.getLatestLocation()
-                val homeLocation = Location(accountData.location.lat, accountData.location.lng, accountData.location.zoom)
+                val homeLocation = LocationModel(accountData.location.latitude, accountData.location.longitude, accountData.location.zoom)
                 if (latestLocation.value == LocationModel(0.0,0.0,5f,"")) {
                     locationButton.setText("Location history\nis empty")
                     locationButton.setTextColor(Color.parseColor("#6d6875"))
                 } else {
                     if ("%.3f".format(latestLocation.value!!.latitude).toDouble() == ("%.3f".format(
-                            homeLocation.lat
+                            homeLocation.latitude
                         ).toDouble()) &&
                         "%.3f".format(latestLocation.value!!.longitude).toDouble() == "%.3f".format(
-                            homeLocation.lng
+                            homeLocation.longitude
                         ).toDouble()
                     ) {
                         locationButton.setText(name + "'s\nlocation is\nHOME")
@@ -136,7 +135,7 @@ class HomeFragment : Fragment() {
 
         view.button_current_location.setOnClickListener {
             val latestLocation = viewModel.getLatestLocation()
-            val location = Location(latestLocation.value!!.latitude, latestLocation.value!!.longitude, latestLocation.value!!.zoom)
+            val location = LocationModel(latestLocation.value!!.latitude, latestLocation.value!!.longitude, latestLocation.value!!.zoom)
             val action : HomeFragmentDirections.ActionNavHomeToMapFragment = HomeFragmentDirections.actionNavHomeToMapFragment(location)
             it.findNavController().navigate(action)
         }

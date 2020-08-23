@@ -134,6 +134,6 @@
         android:label="Map">
         <argument
             android:name="location"
-            app:argType="org.wit.careapp4carer.models.Location" />
+            app:argType="org.wit.careapp4carer.models.LocationModel" />
     </fragment>
 </navigation>

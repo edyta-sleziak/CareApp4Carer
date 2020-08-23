@@ -19,7 +19,7 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_map.*
 import org.wit.careapp4carer.R
-import org.wit.careapp4carer.models.Location
+import org.wit.careapp4carer.models.LocationModel
 import org.wit.careapp4carer.models.firebase.AccountInfoFireStore
 
 // TODO: Rename parameter arguments, choose names that match
@@ -38,7 +38,7 @@ private const val ARG_PARAM2 = "param2"
 class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerDragListener {
 
     private lateinit var map: GoogleMap
-    var location = Location()
+    var location = LocationModel()
     val accountInfo = AccountInfoFireStore()
 
     override fun onCreateView(
@@ -56,7 +56,7 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerDragListen
 
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-        val loc = LatLng(location.lat, location.lng)
+        val loc = LatLng(location.latitude, location.longitude)
         val options = MarkerOptions()
             .snippet("GPS : " + loc.toString())
             .draggable(true)
@@ -73,10 +73,10 @@ class MapFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerDragListen
     }
 
     override fun onMarkerDragEnd(marker: Marker) {
-        location.lat = marker.position.latitude
-        location.lng = marker.position.longitude
+        location.latitude = marker.position.latitude
+        location.longitude = marker.position.longitude
         location.zoom = map.cameraPosition.zoom
-        accountInfo.saveHomeLocation(Location(location.lat,location.lng,location.zoom))
+        accountInfo.saveHomeLocation(LocationModel(location.latitude,location.longitude,location.zoom))
     }
 
     interface OnFragmentInteractionListener {
