@@ -36,7 +36,7 @@ class LocationFireStore() : LocationStore, AnkoLogger {
         return locationData
     }
 
-    fun getLatestLocation() : MutableLiveData<LocationModel> {
+    override fun getLatestLocation() : MutableLiveData<LocationModel> {
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
         db.child("Users").child(userId).child("LatestActivity").child("LatestLocation").addValueEventListener(object : ValueEventListener {
             override fun onCancelled(dataSnapshot: DatabaseError) {

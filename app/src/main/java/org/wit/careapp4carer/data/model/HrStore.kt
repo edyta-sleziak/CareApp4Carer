@@ -4,4 +4,5 @@ import androidx.lifecycle.MutableLiveData
 
 interface HrStore {
     fun getHrHistory() : MutableLiveData<ArrayList<HrModel>>
+    fun getLatestHr() : MutableLiveData<HrModel>
 }

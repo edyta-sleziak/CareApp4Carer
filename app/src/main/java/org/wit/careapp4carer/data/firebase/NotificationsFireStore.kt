@@ -26,7 +26,7 @@ class NotificationsFireStore() : NotificationsStore {
 
 
 
-    fun getCompletedNotification(): MutableLiveData<ArrayList<NotificationsModel>> {
+    override fun getCompletedNotification(): MutableLiveData<ArrayList<NotificationsModel>> {
         db.child("Users").child(userId).child("Notifications").addValueEventListener(object :
             ValueEventListener {
             override fun onCancelled(dataSnapshot: DatabaseError) {
@@ -45,7 +45,7 @@ class NotificationsFireStore() : NotificationsStore {
         return mListOfItems
     }
 
-    fun getActiveNotification(): MutableLiveData<ArrayList<NotificationsModel>> {
+    override fun getActiveNotification(): MutableLiveData<ArrayList<NotificationsModel>> {
         db.child("Users").child(userId).child("Notifications").addValueEventListener(object :
             ValueEventListener {
             override fun onCancelled(dataSnapshot: DatabaseError) {
@@ -74,10 +74,6 @@ class NotificationsFireStore() : NotificationsStore {
         return completedNotificationsCount
     }
 
-    override fun displayNotification(notificationId: String) {
-
-    }
-
     override fun addNewNotification(notification: NotificationsModel) {
         val key = db.child("Users").child(userId).child("Notifications").push().key
         key?.let {
@@ -88,7 +84,7 @@ class NotificationsFireStore() : NotificationsStore {
         }
     }
 
-    fun editNotification(notification: NotificationsModel) {
+    override fun editNotification(notification: NotificationsModel) {
         val notificationId = notification.id
         Log.d("firebase update", "$notification")
         db.child("Users").child(userId).child("Notifications").child(notificationId).setValue(notification)

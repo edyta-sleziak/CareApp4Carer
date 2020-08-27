@@ -8,5 +8,4 @@ interface TodoStore {
     fun remove(taskId: String)
     fun edit(task: TodoModel)
     fun addNewTodoItem(task: TodoModel)
-    fun clear()
 }

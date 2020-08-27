@@ -76,10 +76,6 @@ class TodoFireStore() : TodoStore {
         }
     }
 
-    override fun clear() {
-        todoItems.clear()
-    }
-
     fun getNumberOfToDoItems(): MutableLiveData<Int> {
         getActiveOnly()
         return count

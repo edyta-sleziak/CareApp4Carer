@@ -38,7 +38,7 @@ class HrFireStore() : HrStore, AnkoLogger {
         return hrRecordsMut
     }
 
-    fun getLatestHr() : MutableLiveData<HrModel> {
+    override fun getLatestHr() : MutableLiveData<HrModel> {
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
         db.child("Users").child(userId).child("LatestActivity").child("LatestHr").addValueEventListener(object :
             ValueEventListener {

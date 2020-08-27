@@ -24,7 +24,7 @@ class AccountInfoFireStore() : AccountInfoStore, AnkoLogger {
     val auth = FirebaseDatabase.getInstance()
     private var db = auth.reference
 
-    fun getData() : MutableLiveData<AccountInfoModel> {
+    override fun getData() : MutableLiveData<AccountInfoModel> {
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
         db.child("Users").child(userId).child("Settings").addValueEventListener(object : ValueEventListener {
             override fun onCancelled(dataSnapshot: DatabaseError) {
@@ -44,7 +44,7 @@ class AccountInfoFireStore() : AccountInfoStore, AnkoLogger {
         return accountData
     }
 
-    fun add(newAccount: AccountInfoModel) {
+    override fun add(newAccount: AccountInfoModel) {
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
         db.child("Users").child(userId).child("Settings").child("AccountInfo").setValue(newAccount)
         db.child("Users").child(userId).child("LatestActivity").child("LatestHr").child("data").setValue(
@@ -55,16 +55,16 @@ class AccountInfoFireStore() : AccountInfoStore, AnkoLogger {
         )
     }
 
-    fun addToken(token: String) {
+    override fun addToken(token: String) {
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
         db.child("Users").child(userId).child("Settings").child("AccountInfo").child("registrationTokenCarer").setValue(token)
     }
 
-    fun getUser(): String? {
+    override fun getUser(): String? {
         return FirebaseAuth.getInstance().currentUser?.uid
     }
 
-    fun updateAccountInDb(accountName: String, carerName: String, patientName: String) {
+    override fun updateAccountInDb(accountName: String, carerName: String, patientName: String) {
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
 
         db.child("Users").child(userId).child("Settings").child("AccountInfo").child("email").setValue(accountName)
@@ -72,7 +72,7 @@ class AccountInfoFireStore() : AccountInfoStore, AnkoLogger {
         db.child("Users").child(userId).child("Settings").child("AccountInfo").child("epName").setValue(patientName)
     }
 
-    fun updateApplicationInDb(sosContactNumber: String,saveHrRangeLow: String, saveHrRangeHigh: String,saveHomeDistance: String,dailyStepsGoal: String,notificationResponseTime: String) {
+    override fun updateApplicationInDb(sosContactNumber: String,saveHrRangeLow: String, saveHrRangeHigh: String,saveHomeDistance: String,dailyStepsGoal: String,notificationResponseTime: String) {
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
         db.child("Users").child(userId).child("Settings").child("AccountInfo").child("sosContactNumber").setValue(sosContactNumber)
         db.child("Users").child(userId).child("Settings").child("AccountInfo").child("saveHrRangeLow").setValue(saveHrRangeLow)
@@ -82,7 +82,7 @@ class AccountInfoFireStore() : AccountInfoStore, AnkoLogger {
         db.child("Users").child(userId).child("Settings").child("AccountInfo").child("notificationResponseTime").setValue(notificationResponseTime)
     }
 
-    fun saveHomeLocation(location: LocationModel) {
+    override fun saveHomeLocation(location: LocationModel) {
         val userId = FirebaseAuth.getInstance().currentUser!!.uid
         db.child("Users").child(userId).child("Settings").child("AccountInfo").child("location").setValue(location)
     }
