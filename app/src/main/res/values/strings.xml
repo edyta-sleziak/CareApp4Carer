@@ -2,10 +2,14 @@
     <string name="app_name">CareApp4Carer</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">CareApp4Carer</string>
+    <string name="nav_header_subtitle">$ accountName</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="logout">Log out</string>
+
+    <string name="active_notifications">$ numberOfActiveNotifications</string>
+    <string name="completed_notifications">$ numberOfCompletedNotifications</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_todo">To-do List</string>
@@ -24,12 +28,76 @@
     <string name="hint_createaccount">Don\'t have an account?\nTo register click button below</string>
     <string name="enter_credentials">Please provide e-mail address and password</string>
 
+    <!-- Notifications -->
     <string name="button_notificationHistory">Display history</string>
     <string name="button_delete">Delete</string>
     <string name="button_duplicate">Duplicate</string>
     <string name="button_save">Save</string>
-    <string name="hint_DisplayDate">Display Date:</string>
+    <string name="hint_display_date">Display Date:</string>
+    <string name="hint_display_time">Display Time:</string>
+    <string name="hint_completed_date">Completed Date:</string>
     <string name="DisplayDateTime">$ displayDate</string>
 
+    <!-- Notes -->
+    <string name="button_notesHistory">Display history</string>
+    <string name="button_noteDetails">Display note</string>
+    <string name="note_title">$ noteTitle</string>
+    <string name="note_content">$ noteContent</string>
+    <string name="update_date">$ updateDate</string>
+    <string name="updated_by">$ updatedBy</string>
+
+    <!-- To do list -->
+    <string name="btn_todo_option">$ buttonOption</string>
+
+    <!--    Dropdown values-->
+
+    <string-array name="HrLow">
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
+        <item>60</item>
+        <item>70</item>
+        <item>80</item>
+    </string-array>
+
+    <string-array name="HrHigh">
+        <item>80</item>
+        <item>90</item>
+        <item>100</item>
+        <item>110</item>
+        <item>120</item>
+        <item>130</item>
+        <item>140</item>
+        <item>150</item>
+    </string-array>
+
+    <string-array name="Range">
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>Not set</item>
+    </string-array>
+
+    <string-array name="Steps">
+        <item>1000</item>
+        <item>3000</item>
+        <item>6000</item>
+        <item>8000</item>
+        <item>10000</item>
+        <item>Not set</item>
+    </string-array>
+
+    <string-array name="Time">
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>Not set</item>
+    </string-array>
 
 </resources>

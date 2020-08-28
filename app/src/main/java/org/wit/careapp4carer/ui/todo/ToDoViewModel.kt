@@ -16,7 +16,8 @@ import org.wit.careapp4carer.models.firebase.TodoFireStore
 class ToDoViewModel : ViewModel()  {
 
     val todoFireStore = TodoFireStore()
-    val mToDoList: LiveData<ArrayList<TodoModel>> get() = todoFireStore.getMutalbleLiveData()
+    val mToDoList: LiveData<ArrayList<TodoModel>> get() = todoFireStore.getActiveOnly()
+    val mCompletedTasks: LiveData<ArrayList<TodoModel>> get() = todoFireStore.getCompletedOnly()
 
 
 
@@ -24,7 +25,8 @@ class ToDoViewModel : ViewModel()  {
         return mToDoList
     }
 
-
-
+    fun getHistory(): LiveData<ArrayList<TodoModel>> {
+        return mCompletedTasks
+    }
 
 }

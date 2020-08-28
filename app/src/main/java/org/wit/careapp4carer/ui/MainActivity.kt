@@ -1,5 +1,6 @@
 package org.wit.careapp4carer.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -12,19 +13,56 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import org.wit.careapp4carer.R
+import android.net.Uri
+import android.util.Log
+import android.widget.TextView
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.iid.FirebaseInstanceId
+import kotlinx.android.synthetic.main.content_main.*
+import org.wit.careapp4carer.models.firebase.AccountInfoFireStore
+import org.wit.careapp4carer.ui.login.LoginActivity
+import org.wit.careapp4carer.ui.map.MapFragment
+import org.wit.careapp4carer.ui.notes.AddNote
+import org.wit.careapp4carer.ui.notes.NoteDetailsFragment
+import org.wit.careapp4carer.ui.notifications.AddNotificationFragment
+import org.wit.careapp4carer.ui.notifications.history.NotificationHistoryFragment
+import org.wit.careapp4carer.ui.todo.history.toDoHistoryFragment
+import org.wit.careapp4carer.ui.todo.toDoItemEditFragment
 
-class MainActivity : AppCompatActivity() {
+
+class MainActivity : AppCompatActivity(),
+        AddNotificationFragment.OnFragmentInteractionListener,
+        NotificationHistoryFragment.OnFragmentInteractionListener,
+        AddNote.OnFragmentInteractionListener,
+        NoteDetailsFragment.OnFragmentInteractionListener,
+        toDoItemEditFragment.OnFragmentInteractionListener,
+        toDoHistoryFragment.OnFragmentInteractionListener,
+        MapFragment.OnFragmentInteractionListener
+{
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+
+    private var user = FirebaseAuth.getInstance().currentUser!!
+
+    val accountFirestore = AccountInfoFireStore()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+        toolbar.title = nav_host_fragment.tag
+        
+        var auth: FirebaseAuth = FirebaseAuth.getInstance()
+
+        val navView: NavigationView = findViewById(R.id.nav_view)
+        val header = navView.getHeaderView(0)
+        val accountName: TextView = header.findViewById(R.id.accountName)
+        accountName.setText(user.email)
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        val navView: NavigationView = findViewById(R.id.nav_view)
+
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -40,6 +78,28 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+
+
+        val navigationView = findViewById<NavigationView>(R.id.nav_view)
+        navigationView.menu.findItem(R.id.logout).setOnMenuItemClickListener {
+        auth.signOut()
+            startActivity(Intent(baseContext, LoginActivity::class.java))
+            true
+        }
+
+        FirebaseInstanceId.getInstance().instanceId
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.w("Token", "getInstanceId failed", task.exception)
+                    return@OnCompleteListener
+                }
+
+                val token = task.result?.token
+                accountFirestore.addToken(token.toString())
+                Log.d("Tag token", token)
+            })
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -51,5 +111,8 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    override fun onFragmentInteraction(uri: Uri) {
     }
 }

@@ -10,40 +10,46 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.toast
 import org.wit.careapp4carer.R
+import org.wit.careapp4carer.models.AccountInfoModel
+import org.wit.careapp4carer.models.LocationModel
 import org.wit.careapp4carer.models.firebase.AccountInfoFireStore
 import org.wit.careapp4carer.ui.MainActivity
 
 class LoginActivity : AppCompatActivity() {
 
-    //var view: View? = findViewById(R.id.login)
     lateinit var context: Context
     var auth: FirebaseAuth = FirebaseAuth.getInstance()
-    var fireStore: AccountInfoFireStore? = null
+    var fireStore = AccountInfoFireStore()
+    var accountFirebase = AccountInfoFireStore()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        context = this
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-        progressBar.visibility = View.GONE
+        if (accountFirebase.getUser() != null) {
+            startActivity(Intent(baseContext, MainActivity::class.java))
+        } else {
+            context = this
+            setContentView(R.layout.activity_login)
+            progressBar.visibility = View.GONE
 
-        login.setOnClickListener() {
-            val email = email.text.toString()
-            val password = password.text.toString()
+            login.setOnClickListener() {
+                val email = email.text.toString()
+                val password = password.text.toString()
 
-            if (email.isEmpty() && password.isEmpty()) {
-                toast(R.string.enter_credentials)
-            } else {
-                doLogin(email, password)
+                if (email.isEmpty() && password.isEmpty()) {
+                    toast(R.string.enter_credentials)
+                } else {
+                    doLogin(email, password)
+                }
             }
-        }
-        signup.setOnClickListener() {
-            val email = email.text.toString()
-            val password = password.text.toString()
+            signup.setOnClickListener() {
+                val email = email.text.toString()
+                val password = password.text.toString()
 
-            if (email.isEmpty() || password.isEmpty()) {
-                toast(R.string.enter_credentials)
-            } else {
-                doSignup(email, password)
+                if (email.isEmpty() || password.isEmpty()) {
+                    toast(R.string.enter_credentials)
+                } else {
+                    doSignup(email, password)
+                }
             }
         }
     }
@@ -59,15 +65,8 @@ class LoginActivity : AppCompatActivity() {
         showProgress()
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                if (fireStore != null) {
-                    fireStore!!.fetchData {
-                        hideProgress()
-                        startActivity(Intent(baseContext, MainActivity::class.java))
-                    }
-                } else {
-                    hideProgress()
-                    startActivity(Intent(baseContext, MainActivity::class.java))
-                }
+                hideProgress()
+                startActivity(Intent(baseContext, MainActivity::class.java))
             } else {
                 hideProgress()
                 toast("Login Failed: ${task.exception?.message}")
@@ -78,16 +77,16 @@ class LoginActivity : AppCompatActivity() {
     private fun doSignup (email: String, password: String) {
         showProgress()
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-//                fireStore!!.fetchData {
-                    hideProgress()
-                    startActivity(Intent(baseContext, MainActivity::class.java))
-                //}
+        if (task.isSuccessful) {
+            val newAccount =
+                AccountInfoModel(email, "Carer", "Patient", "112", "130", "70", "Not set", "Not set", "Not set", "","", LocationModel(0.0, 0.0, 6f,""))
+            doLogin(email,password)
+            fireStore.add(newAccount)
+            Thread.sleep(4000)
             } else {
                 toast("Sign Up Failed: ${task.exception?.message}")
                 hideProgress()
             }
         }
     }
-
 }

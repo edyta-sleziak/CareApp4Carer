@@ -13,27 +13,59 @@ import org.wit.careapp4carer.models.TodoStore
 class TodoFireStore() : TodoStore {
     private var todoItems = ArrayList<TodoModel>()
     private var todoItemsMut = MutableLiveData<ArrayList<TodoModel>>()
+    var count = MutableLiveData<Int>()
     private var db = FirebaseDatabase.getInstance().reference
     private var userId = FirebaseAuth.getInstance().currentUser!!.uid
 
-    override fun getAll(): ArrayList<TodoModel> {
-        fetchData()
-        return todoItems
+    override fun remove(taskId: String) {
+        db.child("Users").child(userId).child("ToDoItems").child(taskId).child("completed").setValue(true)
     }
 
-    fun getMutalbleLiveData():MutableLiveData<ArrayList<TodoModel>> {
-        fetchData()
-        todoItemsMut.value = todoItems
+    override fun edit(task: TodoModel) {
+        val taskId = task.id
+        Log.d("firebase update", "$task")
+        db.child("Users").child(userId).child("ToDoItems").child(taskId).setValue(task)
+    }
+
+    override fun getActiveOnly(): MutableLiveData<ArrayList<TodoModel>> {
+        db.child("Users")
+            .child(userId)
+            .child("ToDoItems")
+            .orderByChild("updatedDate")
+            .addValueEventListener(object: ValueEventListener {
+                override fun onCancelled(dataSnapshot: DatabaseError) {
+                    Log.w("Database error" , "Retrieving data failed")
+                }
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    todoItems.clear()
+                    dataSnapshot.children.mapNotNullTo(todoItems) { it.getValue<TodoModel>(TodoModel::class.java) }
+                    val activeItems = todoItems.filter { n -> !n.isCompleted  }
+                    todoItemsMut.postValue(ArrayList(activeItems))
+                    count.postValue(activeItems.size)
+                }
+            })
         return todoItemsMut
     }
 
-    override fun getActiveOnly(): List<TodoModel> {
-        val notCompletedItems: List<TodoModel> = todoItems.filter { t -> t.isCompleted }
-        return notCompletedItems
+    override fun getCompletedOnly(): MutableLiveData<ArrayList<TodoModel>> {
+        db.child("Users")
+            .child(userId)
+            .child("ToDoItems")
+            .orderByChild("updatedDate")
+            .addValueEventListener(object: ValueEventListener {
+                override fun onCancelled(dataSnapshot: DatabaseError) {
+                    Log.w("Database error" , "Retrieving data failed")
+                }
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    todoItems.clear()
+                    dataSnapshot.children.mapNotNullTo(todoItems) { it.getValue<TodoModel>(TodoModel::class.java) }
+                    val activeItems = todoItems.filter { n -> n.isCompleted  }
+                    todoItemsMut.postValue(ArrayList(activeItems))
+                }
+            })
+        return todoItemsMut
     }
-    override fun markAsDone(todoItemId: Long) {
-        //EP only
-    }
+
 
     override fun addNewTodoItem(task: TodoModel) {
         val key = db.child("Users").child(userId).child("ToDoItems").push().key
@@ -44,21 +76,10 @@ class TodoFireStore() : TodoStore {
         }
     }
 
-    override fun clear() {
-        todoItems.clear()
+    fun getNumberOfToDoItems(): MutableLiveData<Int> {
+        getActiveOnly()
+        return count
     }
 
-    fun fetchData() {
-        db.child("Users").child(userId).child("ToDoItems").addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(dataSnapshot: DatabaseError) {
-                Log.w("Database error" , "Retrieving data failed")
-            }
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                Log.d("snapshot ", "$dataSnapshot")
-                dataSnapshot.children.mapNotNullTo(todoItems) { it.getValue<TodoModel>(
-                    TodoModel::class.java) }
-                Log.d("saved data", "$todoItems")
-            }
-        })
-    }
+
 }

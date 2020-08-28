@@ -1,5 +1,8 @@
 package org.wit.careapp4carer.models
 
+import androidx.lifecycle.MutableLiveData
+
 interface HrStore {
-    fun add(hrValue: Int): HrModel
+    fun getHrHistory() : MutableLiveData<ArrayList<HrModel>>
+    fun getLatestHr() : MutableLiveData<HrModel>
 }

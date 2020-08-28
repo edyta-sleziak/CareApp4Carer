@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/black"
+            android:padding="30dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/title_sos_notification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="SOS Notification"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="30dp"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/hint_source"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:text="Source:" />
+
+            <TextView
+                android:id="@+id/source"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="20sp"
+                android:layout_marginBottom="20dp"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/Date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date triggered"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="20sp"
+                android:layout_marginBottom="20dp"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/hint_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time triggered"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="12313"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/hint_last_hr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Last HR reading:"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/last_hr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="20sp"
+                android:layout_marginBottom="20dp"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/hint_last_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Last recorded location:"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:layout_marginBottom="15dp"/>
+
+            <include layout="@layout/fragment_map"
+                android:layout_width="match_parent"
+                android:layout_height="369dp" />
+
+        </LinearLayout>
+    </ScrollView>

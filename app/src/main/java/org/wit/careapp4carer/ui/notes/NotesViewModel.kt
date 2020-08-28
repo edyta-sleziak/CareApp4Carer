@@ -3,11 +3,20 @@ package org.wit.careapp4carer.ui.notes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import org.wit.careapp4carer.models.NotesModel
+import org.wit.careapp4carer.models.firebase.NotesFireStore
 
 class NotesViewModel : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is SHARED NOTES Fragment"
+    val notesFireStore = NotesFireStore()
+    val mItemsList: LiveData<ArrayList<NotesModel>> get() = notesFireStore.getActiveNotes()
+    val mRemovedItemsList: LiveData<ArrayList<NotesModel>> get() = notesFireStore.getRemovedNotes()
+
+    fun getNotesList(): LiveData<ArrayList<NotesModel>> {
+        return mItemsList
     }
-    val text: LiveData<String> = _text
+
+    fun getRemovedNotesList(): LiveData<ArrayList<NotesModel>> {
+        return mRemovedItemsList
+    }
 }
